@@ -8,9 +8,6 @@ import (
 	"os/signal"
 	"syscall"
 	"time"
-
-	"github.com/soliloquyx/food-delivery-eda/internal/gateway/adapters/in/httpapi"
-	order "github.com/soliloquyx/food-delivery-eda/internal/gateway/app/placeorder"
 )
 
 func run(ctx context.Context) error {
@@ -19,10 +16,7 @@ func run(ctx context.Context) error {
 		port = "8080"
 	}
 
-	orderSvc := order.NewService()
-	httpHandler := httpapi.NewHandler(orderSvc)
 	mux := http.NewServeMux()
-	mux.HandleFunc("POST /orders", httpHandler.PlaceOrder)
 
 	srv := &http.Server{
 		Addr:              ":" + port,
@@ -35,7 +29,7 @@ func run(ctx context.Context) error {
 
 	errCh := make(chan error, 1)
 	go func() {
-		log.Printf("api gateway: listening on port %s", port)
+		log.Printf("order service: listening on port %s", port)
 
 		if err := srv.ListenAndServe(); err != nil && err != http.ErrServerClosed {
 			errCh <- err
@@ -44,7 +38,7 @@ func run(ctx context.Context) error {
 
 	select {
 	case <-ctx.Done():
-		log.Println("api gateway: shutdown signal received")
+		log.Println("order service: shutdown signal received")
 
 		shutdownCtx, cancel := context.WithTimeout(context.WithoutCancel(ctx), 5*time.Second)
 		defer cancel()
@@ -53,7 +47,7 @@ func run(ctx context.Context) error {
 			return err
 		}
 
-		log.Println("api gateway: graceful shutdown complete")
+		log.Println("order service: graceful shutdown complete")
 	case err := <-errCh:
 		return err
 	}
