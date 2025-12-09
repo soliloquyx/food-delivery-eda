@@ -14,8 +14,11 @@ func (h *handler) PlaceOrder(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
-	if err := h.Order.Place(); err != nil {
+	in := placeorder.ToInput(body)
+
+	if err := h.Order.Place(r.Context(), in); err != nil {
 		writeError(w, http.StatusInternalServerError, "")
+		return
 	}
 
 	writeJSON(w, http.StatusOK, nil)

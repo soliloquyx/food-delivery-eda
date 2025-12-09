@@ -1,5 +1,7 @@
 package order
 
+import "context"
+
 type Item struct {
 	ID       int
 	Quantity int
@@ -20,5 +22,5 @@ type PlaceInput struct {
 }
 
 type Service interface {
-	Place() error
+	Place(ctx context.Context, in PlaceInput) error
 }

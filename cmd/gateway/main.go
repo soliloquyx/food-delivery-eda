@@ -10,7 +10,7 @@ import (
 	"time"
 
 	"github.com/soliloquyx/food-delivery-eda/internal/gateway/adapters/in/httpapi"
-	order "github.com/soliloquyx/food-delivery-eda/internal/gateway/app/placeorder"
+	order "github.com/soliloquyx/food-delivery-eda/internal/gateway/app/order"
 )
 
 func run(ctx context.Context) error {
