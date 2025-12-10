@@ -1,4 +1,4 @@
-package httpapi
+package http
 
 import "github.com/soliloquyx/food-delivery-eda/internal/gateway/ports/order"
 

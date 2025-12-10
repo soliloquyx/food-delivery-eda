@@ -1,10 +1,10 @@
-package httpapi
+package http
 
 import (
 	"encoding/json"
 	"net/http"
 
-	"github.com/soliloquyx/food-delivery-eda/internal/gateway/adapters/in/httpapi/placeorder"
+	"github.com/soliloquyx/food-delivery-eda/internal/gateway/adapters/in/http/placeorder"
 )
 
 func (h *handler) PlaceOrder(w http.ResponseWriter, r *http.Request) {
@@ -16,10 +16,13 @@ func (h *handler) PlaceOrder(w http.ResponseWriter, r *http.Request) {
 
 	in := placeorder.ToInput(body)
 
-	if err := h.order.Place(r.Context(), in); err != nil {
+	result, err := h.order.Place(r.Context(), in)
+	if err != nil {
 		writeError(w, http.StatusInternalServerError, "")
 		return
 	}
 
-	writeJSON(w, http.StatusOK, nil)
+	resp := placeorder.ToResponse(result)
+
+	writeJSON(w, http.StatusOK, resp)
 }

@@ -2,25 +2,51 @@ package order
 
 import "context"
 
+type Status string
+
+const (
+	StatusUnknown   Status = "unknown"
+	StatusPending   Status = "pending"
+	StatusConfirmed Status = "confirmed"
+	StatusCancelled Status = "cancelled"
+)
+
+type DeliveryType string
+
+const (
+	DeliveryTypeUnknown  DeliveryType = "unknown"
+	DeliveryTypeDelivery DeliveryType = "delivery"
+	DeliveryTypePickup   DeliveryType = "pickup"
+)
+
 type Item struct {
-	ID       int
-	Quantity int
+	ID       int64
+	Quantity int32
 	Comment  string
 }
 
 type Delivery struct {
-	Type    string
+	Type    DeliveryType
 	Address string
 	Comment string
 }
 
 type PlaceInput struct {
-	UserID       int
-	RestaurantID int
+	UserID       int64
+	RestaurantID int64
 	Items        []Item
 	Delivery     Delivery
 }
 
+type PlaceResult struct {
+	OrderID int64
+	Status  Status
+}
+
 type Service interface {
-	Place(ctx context.Context, in PlaceInput) error
+	Place(ctx context.Context, in PlaceInput) (PlaceResult, error)
+}
+
+type Client interface {
+	Place(ctx context.Context, in PlaceInput) (PlaceResult, error)
 }

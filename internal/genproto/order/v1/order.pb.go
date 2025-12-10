@@ -125,7 +125,7 @@ func (Status) EnumDescriptor() ([]byte, []int) {
 
 type Item struct {
 	state         protoimpl.MessageState `protogen:"open.v1"`
-	Id            int32                  `protobuf:"varint,1,opt,name=id,proto3" json:"id,omitempty"`
+	Id            int64                  `protobuf:"varint,1,opt,name=id,proto3" json:"id,omitempty"`
 	Quantity      int32                  `protobuf:"varint,2,opt,name=quantity,proto3" json:"quantity,omitempty"`
 	Comment       string                 `protobuf:"bytes,3,opt,name=comment,proto3" json:"comment,omitempty"`
 	unknownFields protoimpl.UnknownFields
@@ -162,7 +162,7 @@ func (*Item) Descriptor() ([]byte, []int) {
 	return file_order_v1_order_proto_rawDescGZIP(), []int{0}
 }
 
-func (x *Item) GetId() int32 {
+func (x *Item) GetId() int64 {
 	if x != nil {
 		return x.Id
 	}
@@ -245,8 +245,8 @@ func (x *Delivery) GetComment() string {
 
 type PlaceOrderRequest struct {
 	state         protoimpl.MessageState `protogen:"open.v1"`
-	UserId        int32                  `protobuf:"varint,1,opt,name=user_id,json=userId,proto3" json:"user_id,omitempty"`
-	RestaurantId  int32                  `protobuf:"varint,2,opt,name=restaurant_id,json=restaurantId,proto3" json:"restaurant_id,omitempty"`
+	UserId        int64                  `protobuf:"varint,1,opt,name=user_id,json=userId,proto3" json:"user_id,omitempty"`
+	RestaurantId  int64                  `protobuf:"varint,2,opt,name=restaurant_id,json=restaurantId,proto3" json:"restaurant_id,omitempty"`
 	Items         []*Item                `protobuf:"bytes,3,rep,name=items,proto3" json:"items,omitempty"`
 	Delivery      *Delivery              `protobuf:"bytes,4,opt,name=delivery,proto3" json:"delivery,omitempty"`
 	unknownFields protoimpl.UnknownFields
@@ -283,14 +283,14 @@ func (*PlaceOrderRequest) Descriptor() ([]byte, []int) {
 	return file_order_v1_order_proto_rawDescGZIP(), []int{2}
 }
 
-func (x *PlaceOrderRequest) GetUserId() int32 {
+func (x *PlaceOrderRequest) GetUserId() int64 {
 	if x != nil {
 		return x.UserId
 	}
 	return 0
 }
 
-func (x *PlaceOrderRequest) GetRestaurantId() int32 {
+func (x *PlaceOrderRequest) GetRestaurantId() int64 {
 	if x != nil {
 		return x.RestaurantId
 	}
@@ -313,7 +313,7 @@ func (x *PlaceOrderRequest) GetDelivery() *Delivery {
 
 type PlaceOrderResponse struct {
 	state         protoimpl.MessageState `protogen:"open.v1"`
-	OrderId       int32                  `protobuf:"varint,1,opt,name=order_id,json=orderId,proto3" json:"order_id,omitempty"`
+	OrderId       int64                  `protobuf:"varint,1,opt,name=order_id,json=orderId,proto3" json:"order_id,omitempty"`
 	Status        Status                 `protobuf:"varint,2,opt,name=status,proto3,enum=order.v1.Status" json:"status,omitempty"`
 	CreatedAt     *timestamppb.Timestamp `protobuf:"bytes,3,opt,name=created_at,json=createdAt,proto3" json:"created_at,omitempty"`
 	unknownFields protoimpl.UnknownFields
@@ -350,7 +350,7 @@ func (*PlaceOrderResponse) Descriptor() ([]byte, []int) {
 	return file_order_v1_order_proto_rawDescGZIP(), []int{3}
 }
 
-func (x *PlaceOrderResponse) GetOrderId() int32 {
+func (x *PlaceOrderResponse) GetOrderId() int64 {
 	if x != nil {
 		return x.OrderId
 	}
@@ -377,7 +377,7 @@ const file_order_v1_order_proto_rawDesc = "" +
 	"\n" +
 	"\x14order/v1/order.proto\x12\border.v1\x1a\x1fgoogle/protobuf/timestamp.proto\"L\n" +
 	"\x04Item\x12\x0e\n" +
-	"\x02id\x18\x01 \x01(\x05R\x02id\x12\x1a\n" +
+	"\x02id\x18\x01 \x01(\x03R\x02id\x12\x1a\n" +
 	"\bquantity\x18\x02 \x01(\x05R\bquantity\x12\x18\n" +
 	"\acomment\x18\x03 \x01(\tR\acomment\"j\n" +
 	"\bDelivery\x12*\n" +
@@ -385,12 +385,12 @@ const file_order_v1_order_proto_rawDesc = "" +
 	"\aaddress\x18\x02 \x01(\tR\aaddress\x12\x18\n" +
 	"\acomment\x18\x03 \x01(\tR\acomment\"\xa7\x01\n" +
 	"\x11PlaceOrderRequest\x12\x17\n" +
-	"\auser_id\x18\x01 \x01(\x05R\x06userId\x12#\n" +
-	"\rrestaurant_id\x18\x02 \x01(\x05R\frestaurantId\x12$\n" +
+	"\auser_id\x18\x01 \x01(\x03R\x06userId\x12#\n" +
+	"\rrestaurant_id\x18\x02 \x01(\x03R\frestaurantId\x12$\n" +
 	"\x05items\x18\x03 \x03(\v2\x0e.order.v1.ItemR\x05items\x12.\n" +
 	"\bdelivery\x18\x04 \x01(\v2\x12.order.v1.DeliveryR\bdelivery\"\x94\x01\n" +
 	"\x12PlaceOrderResponse\x12\x19\n" +
-	"\border_id\x18\x01 \x01(\x05R\aorderId\x12(\n" +
+	"\border_id\x18\x01 \x01(\x03R\aorderId\x12(\n" +
 	"\x06status\x18\x02 \x01(\x0e2\x10.order.v1.StatusR\x06status\x129\n" +
 	"\n" +
 	"created_at\x18\x03 \x01(\v2\x1a.google.protobuf.TimestampR\tcreatedAt*c\n" +

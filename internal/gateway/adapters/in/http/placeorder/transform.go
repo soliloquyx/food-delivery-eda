@@ -17,9 +17,16 @@ func ToInput(body Request) order.PlaceInput {
 		RestaurantID: body.RestaurantID,
 		Items:        inputItems,
 		Delivery: order.Delivery{
-			Type:    body.Delivery.Type,
+			Type:    order.DeliveryType(body.Delivery.Type),
 			Address: body.Delivery.Address,
 			Comment: body.Delivery.Comment,
 		},
+	}
+}
+
+func ToResponse(result order.PlaceResult) Response {
+	return Response{
+		OrderID: result.OrderID,
+		Status:  string(result.Status),
 	}
 }
