@@ -31,7 +31,7 @@ func run(ctx context.Context) error {
 	mux := http.NewServeMux()
 	mux.HandleFunc("POST /orders", httpHandler.PlaceOrder)
 
-	srv := &http.Server{
+	server := &http.Server{
 		Addr:              cfg.HTTPAddr,
 		Handler:           mux,
 		ReadHeaderTimeout: 2 * time.Second,
@@ -44,7 +44,7 @@ func run(ctx context.Context) error {
 	go func() {
 		log.Printf("%s: HTTP server listening on %s", cfg.SvcName, cfg.HTTPAddr)
 
-		if err := srv.ListenAndServe(); err != nil && err != http.ErrServerClosed {
+		if err := server.ListenAndServe(); err != nil && err != http.ErrServerClosed {
 			errCh <- err
 		}
 	}()
@@ -56,7 +56,7 @@ func run(ctx context.Context) error {
 		shutdownCtx, cancel := context.WithTimeout(context.Background(), 5*time.Second)
 		defer cancel()
 
-		if err := srv.Shutdown(shutdownCtx); err != nil {
+		if err := server.Shutdown(shutdownCtx); err != nil {
 			return err
 		}
 

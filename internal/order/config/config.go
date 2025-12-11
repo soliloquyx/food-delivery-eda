@@ -3,8 +3,8 @@ package config
 import "github.com/caarlos0/env/v11"
 
 type config struct {
-	SvcName       string `env:"SERVICE_NAME"`
-	OrderGRPCAddr string `env:"ORDER_GRPC_ADDR"`
+	SvcName  string `env:"SERVICE_NAME"`
+	GRPCAddr string `env:"GRPC_ADDR"`
 }
 
 func FromEnv() (config, error) {
