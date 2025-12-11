@@ -42,7 +42,7 @@ func run(ctx context.Context) error {
 
 	errCh := make(chan error, 1)
 	go func() {
-		log.Printf("%s: listening on addr %s", cfg.SvcName, cfg.HTTPAddr)
+		log.Printf("%s: HTTP server listening on %s", cfg.SvcName, cfg.HTTPAddr)
 
 		if err := srv.ListenAndServe(); err != nil && err != http.ErrServerClosed {
 			errCh <- err
