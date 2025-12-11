@@ -1,0 +1,9 @@
+services:
+  gateway:
+    image: golang:1.25.5
+    working_dir: /app
+    volumes:
+      - .:/app
+    env_file:
+      - ./cmd/gateway/.env
+    command: ["go", "run", "./cmd/gateway"]
