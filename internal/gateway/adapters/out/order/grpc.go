@@ -7,7 +7,7 @@ import (
 	"google.golang.org/grpc/credentials/insecure"
 )
 
-func NewGRPC(addr string) (orderport.Service, func(), error) {
+func NewClient(addr string) (orderport.Service, func(), error) {
 	conn, err := grpc.NewClient(
 		addr,
 		grpc.WithTransportCredentials(insecure.NewCredentials()),
