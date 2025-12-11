@@ -4,6 +4,7 @@ import (
 	"context"
 
 	orderv1 "github.com/soliloquyx/food-delivery-eda/internal/genproto/order/v1"
+	"github.com/soliloquyx/food-delivery-eda/internal/order/adapters/in/grpc/placeorder"
 	"github.com/soliloquyx/food-delivery-eda/internal/order/ports"
 )
 
@@ -18,4 +19,13 @@ func NewServer(s ports.Service) orderv1.OrderServiceServer {
 	}
 }
 
-func (s *server) PlaceOrder(context.Context, *orderv1.PlaceOrderRequest) (*orderv1.PlaceOrderResponse, error)
+func (s *server) PlaceOrder(ctx context.Context, req *orderv1.PlaceOrderRequest) (*orderv1.PlaceOrderResponse, error) {
+	in := placeorder.ToInput(req)
+
+	result, err := s.svc.PlaceOrder(ctx, in)
+	if err != nil {
+		return nil, err
+	}
+
+	return placeorder.ToResponse(result), nil
+}
