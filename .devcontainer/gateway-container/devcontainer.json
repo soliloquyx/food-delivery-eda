@@ -1,6 +1,6 @@
 {
   "name": "food-delivery-eda",
-  "dockerComposeFile": ["../compose.yaml", "../compose.debug.yaml"],
+  "dockerComposeFile": ["../../compose.yaml", "../compose.debug.yaml"],
   "service": "gateway",
   "workspaceFolder": "/app",
   "customizations": {
