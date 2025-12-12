@@ -1,4 +1,0 @@
-services:
-  gateway:
-    command: ["sleep", "infinity"]
-    ports: []
