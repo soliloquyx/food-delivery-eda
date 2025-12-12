@@ -27,6 +27,14 @@ go.work.sum
 # env file
 .env
 
-# Editor/IDE
-# .idea/
-# .vscode/
+# Go debug/build artifacts
+__debug_bin*
+*.test
+
+# VS Code local state
+.vscode/*
+!.vscode/launch.json
+!.vscode/settings.json
+
+# OS noise
+.DS_Store

@@ -1,9 +1,24 @@
 services:
+  order:
+    image: golang:1.25.5
+    working_dir: /app
+    volumes:
+      - .:/app
+    ports:
+      - 50051:50051
+    env_file:
+      - ./cmd/order/.env
+    command: ["go", "run", "./cmd/order"]
   gateway:
     image: golang:1.25.5
     working_dir: /app
     volumes:
       - .:/app
+    ports:
+      - 8080:8080
+      - 40000:40000
     env_file:
       - ./cmd/gateway/.env
+    depends_on:
+      - order
     command: ["go", "run", "./cmd/gateway"]
