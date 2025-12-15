@@ -1,0 +1,33 @@
+{
+  "version": "0.2.0",
+  "configurations": [
+    {
+      "name": "Attach gateway (Skaffold)",
+      "type": "go",
+      "request": "attach",
+      "mode": "remote",
+      "host": "localhost",
+      "port": 56268,
+      "substitutePath": [
+        {
+          "from": "${workspaceFolder}",
+          "to": "github.com/soliloquyx/food-delivery-eda"
+        }
+      ]
+    },
+    {
+      "name": "Attach order (Skaffold)",
+      "type": "go",
+      "request": "attach",
+      "mode": "remote",
+      "host": "localhost",
+      "port": 56269,
+      "substitutePath": [
+        {
+          "from": "${workspaceFolder}",
+          "to": "github.com/soliloquyx/food-delivery-eda"
+        }
+      ]
+    }
+  ]
+}
