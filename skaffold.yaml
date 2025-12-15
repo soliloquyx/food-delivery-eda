@@ -16,3 +16,4 @@ manifests:
   rawYaml:
     - deploy/k8s/gateway.yaml
     - deploy/k8s/order.yaml
+    - deploy/k8s/postgres.yaml
