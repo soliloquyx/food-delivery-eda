@@ -1,13 +1,13 @@
 package order
 
 import (
-	orderport "github.com/soliloquyx/food-delivery-eda/internal/gateway/ports/order"
+	orderapp "github.com/soliloquyx/food-delivery-eda/internal/gateway/app/order"
 	orderv1 "github.com/soliloquyx/food-delivery-eda/internal/genproto/order/v1"
 	"google.golang.org/grpc"
 	"google.golang.org/grpc/credentials/insecure"
 )
 
-func NewClient(addr string) (orderport.Service, func(), error) {
+func NewClient(addr string) (orderapp.Service, func(), error) {
 	conn, err := grpc.NewClient(
 		addr,
 		grpc.WithTransportCredentials(insecure.NewCredentials()),

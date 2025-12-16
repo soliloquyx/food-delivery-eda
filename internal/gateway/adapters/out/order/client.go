@@ -3,7 +3,7 @@ package order
 import (
 	"context"
 
-	orderport "github.com/soliloquyx/food-delivery-eda/internal/gateway/ports/order"
+	orderapp "github.com/soliloquyx/food-delivery-eda/internal/gateway/app/order"
 	orderv1 "github.com/soliloquyx/food-delivery-eda/internal/genproto/order/v1"
 )
 
@@ -11,7 +11,7 @@ type Client struct {
 	svc orderv1.OrderServiceClient
 }
 
-func (c *Client) Place(ctx context.Context, in orderport.PlaceInput) (orderport.PlaceResult, error) {
+func (c *Client) Place(ctx context.Context, in orderapp.PlaceInput) (orderapp.PlaceResult, error) {
 	req := &orderv1.PlaceOrderRequest{
 		UserId:       in.UserID,
 		RestaurantId: in.RestaurantID,
@@ -21,10 +21,10 @@ func (c *Client) Place(ctx context.Context, in orderport.PlaceInput) (orderport.
 
 	resp, err := c.svc.PlaceOrder(ctx, req)
 	if err != nil {
-		return orderport.PlaceResult{}, err
+		return orderapp.PlaceResult{}, err
 	}
 
-	return orderport.PlaceResult{
+	return orderapp.PlaceResult{
 		OrderID: resp.GetOrderId(),
 		Status:  statusFromProto(resp.GetStatus()),
 	}, nil

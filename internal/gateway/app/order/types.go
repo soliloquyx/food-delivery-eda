@@ -1,7 +1,5 @@
 package order
 
-import "context"
-
 type Status string
 
 const (
@@ -41,12 +39,4 @@ type PlaceInput struct {
 type PlaceResult struct {
 	OrderID int64
 	Status  Status
-}
-
-type Service interface {
-	Place(ctx context.Context, in PlaceInput) (PlaceResult, error)
-}
-
-type Client interface {
-	Place(ctx context.Context, in PlaceInput) (PlaceResult, error)
 }

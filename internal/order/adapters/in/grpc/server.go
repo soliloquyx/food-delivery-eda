@@ -5,15 +5,15 @@ import (
 
 	orderv1 "github.com/soliloquyx/food-delivery-eda/internal/genproto/order/v1"
 	"github.com/soliloquyx/food-delivery-eda/internal/order/adapters/in/grpc/placeorder"
-	"github.com/soliloquyx/food-delivery-eda/internal/order/ports"
+	"github.com/soliloquyx/food-delivery-eda/internal/order/app"
 )
 
 type server struct {
 	orderv1.UnimplementedOrderServiceServer
-	svc ports.Service
+	svc app.Service
 }
 
-func NewServer(s ports.Service) orderv1.OrderServiceServer {
+func NewServer(s app.Service) orderv1.OrderServiceServer {
 	return &server{
 		svc: s,
 	}

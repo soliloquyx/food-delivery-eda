@@ -1,24 +1,24 @@
 package order
 
 import (
-	orderport "github.com/soliloquyx/food-delivery-eda/internal/gateway/ports/order"
+	orderapp "github.com/soliloquyx/food-delivery-eda/internal/gateway/app/order"
 	orderv1 "github.com/soliloquyx/food-delivery-eda/internal/genproto/order/v1"
 )
 
-func statusFromProto(s orderv1.Status) orderport.Status {
+func statusFromProto(s orderv1.Status) orderapp.Status {
 	switch s {
 	case orderv1.Status_STATUS_PENDING:
-		return orderport.StatusPending
+		return orderapp.StatusPending
 	case orderv1.Status_STATUS_CONFIRMED:
-		return orderport.StatusConfirmed
+		return orderapp.StatusConfirmed
 	case orderv1.Status_STATUS_CANCELLED:
-		return orderport.StatusCancelled
+		return orderapp.StatusCancelled
 	default:
-		return orderport.StatusUnknown
+		return orderapp.StatusUnknown
 	}
 }
 
-func itemsToProto(items []orderport.Item) []*orderv1.Item {
+func itemsToProto(items []orderapp.Item) []*orderv1.Item {
 	var protoItems []*orderv1.Item
 	for _, it := range items {
 		protoItems = append(protoItems, &orderv1.Item{
@@ -31,18 +31,18 @@ func itemsToProto(items []orderport.Item) []*orderv1.Item {
 	return protoItems
 }
 
-func typeToProto(t orderport.DeliveryType) orderv1.DeliveryType {
+func typeToProto(t orderapp.DeliveryType) orderv1.DeliveryType {
 	switch t {
-	case orderport.DeliveryTypeDelivery:
+	case orderapp.DeliveryTypeDelivery:
 		return orderv1.DeliveryType_DELIVERY_TYPE_DELIVERY
-	case orderport.DeliveryTypePickup:
+	case orderapp.DeliveryTypePickup:
 		return orderv1.DeliveryType_DELIVERY_TYPE_PICKUP
 	default:
 		return orderv1.DeliveryType_DELIVERY_TYPE_UNSPECIFIED
 	}
 }
 
-func deliveryToProto(d orderport.Delivery) *orderv1.Delivery {
+func deliveryToProto(d orderapp.Delivery) *orderv1.Delivery {
 	return &orderv1.Delivery{
 		Type:    typeToProto(d.Type),
 		Address: d.Address,

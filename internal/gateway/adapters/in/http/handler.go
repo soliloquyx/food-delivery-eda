@@ -1,6 +1,6 @@
 package http
 
-import "github.com/soliloquyx/food-delivery-eda/internal/gateway/ports/order"
+import "github.com/soliloquyx/food-delivery-eda/internal/gateway/app/order"
 
 type handler struct {
 	order order.Service

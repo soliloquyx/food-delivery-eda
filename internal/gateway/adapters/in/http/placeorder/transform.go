@@ -1,6 +1,6 @@
 package placeorder
 
-import "github.com/soliloquyx/food-delivery-eda/internal/gateway/ports/order"
+import "github.com/soliloquyx/food-delivery-eda/internal/gateway/app/order"
 
 func ToInput(body Request) order.PlaceInput {
 	var inputItems []order.Item

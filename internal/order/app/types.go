@@ -1,6 +1,4 @@
-package ports
-
-import "context"
+package app
 
 type Status string
 
@@ -41,8 +39,4 @@ type PlaceOrderInput struct {
 type PlaceOrderResult struct {
 	OrderID int64
 	Status  Status
-}
-
-type Service interface {
-	PlaceOrder(ctx context.Context, in PlaceOrderInput) (PlaceOrderResult, error)
 }

@@ -1,14 +1,22 @@
 package order
 
 import (
-	orderport "github.com/soliloquyx/food-delivery-eda/internal/gateway/ports/order"
+	"context"
 )
 
-type service struct {
-	client orderport.Client
+type Service interface {
+	Place(ctx context.Context, in PlaceInput) (PlaceResult, error)
 }
 
-func NewService(c orderport.Client) *service {
+type Client interface {
+	Place(ctx context.Context, in PlaceInput) (PlaceResult, error)
+}
+
+type service struct {
+	client Client
+}
+
+func NewService(c Service) *service {
 	return &service{
 		client: c,
 	}
