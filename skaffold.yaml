@@ -4,9 +4,9 @@ metadata:
   name: infra
 manifests:
   rawYaml:
-    - deploy/postgres/k8s/statefulset.yaml
-    - deploy/postgres/k8s/service.yaml
     - deploy/postgres/k8s/secret.yaml
+    - deploy/postgres/k8s/service.yaml
+    - deploy/postgres/k8s/statefulset.yaml
 ---
 apiVersion: skaffold/v4beta13
 kind: Config

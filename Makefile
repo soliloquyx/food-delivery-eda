@@ -1,6 +1,6 @@
-LOCAL_REGISTRY ?= localhost:5001
+LOCAL_IMAGE_REGISTRY ?= localhost:5001
 
-.PHONY: proto kind-up kind-down kind-reset dev debug
+.PHONY: proto kind-up kind-down kind-reset dev debug migrate
 
 proto:
 	buf generate
@@ -15,8 +15,13 @@ kind-down:
 kind-reset: kind-down kind-up
 
 dev:
-	skaffold dev --port-forward --default-repo=${LOCAL_REGISTRY}
+	skaffold dev --module services --port-forward --default-repo=${LOCAL_IMAGE_REGISTRY}
 
 debug:
-	skaffold debug --port-forward --default-repo=${LOCAL_REGISTRY}
+	skaffold debug --port-forward --default-repo=${LOCAL_IMAGE_REGISTRY}
+
+migrate:
+	kubectl delete job order-migrate --ignore-not-found
+	skaffold run --module migrate --default-repo=${LOCAL_IMAGE_REGISTRY}
+	kubectl wait --for=condition=complete --timeout=120s job/order-migrate
 
