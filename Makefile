@@ -22,6 +22,6 @@ debug:
 
 migrate:
 	kubectl delete job order-migrate --ignore-not-found
-	skaffold run --module migrate --default-repo=${LOCAL_IMAGE_REGISTRY}
+	skaffold run --module migrate --default-repo=${LOCAL_IMAGE_REGISTRY} --tail
 	kubectl wait --for=condition=complete --timeout=120s job/order-migrate
 

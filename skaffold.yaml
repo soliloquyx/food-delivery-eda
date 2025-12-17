@@ -2,6 +2,8 @@ apiVersion: skaffold/v4beta13
 kind: Config
 metadata:
   name: infra
+deploy:
+  kubectl: {}
 manifests:
   rawYaml:
     - deploy/postgres/k8s/secret.yaml
@@ -13,9 +15,7 @@ kind: Config
 metadata:
   name: migrate
 requires:
-  - configs:
-      - infra
-    path: .
+  - configs: [infra]
 build:
   local:
     push: true
@@ -23,6 +23,8 @@ build:
     - image: order-migrate
       docker:
         dockerfile: deploy/order/images/migrate.Dockerfile
+deploy:
+  kubectl: {}
 manifests:
   rawYaml:
     - deploy/order/k8s/migrate-job.yaml
@@ -32,9 +34,7 @@ kind: Config
 metadata:
   name: services
 requires:
-  - configs:
-      - infra
-    path: .
+  - configs: [infra]
 build:
   local:
     push: true
@@ -45,6 +45,8 @@ build:
     - image: order
       ko:
         main: ./cmd/order
+deploy:
+  kubectl: {}
 manifests:
   rawYaml:
     - deploy/gateway/k8s/deployment.yaml
