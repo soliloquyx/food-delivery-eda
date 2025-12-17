@@ -1,7 +1,40 @@
 apiVersion: skaffold/v4beta13
 kind: Config
 metadata:
-  name: food-delivery-eda
+  name: infra
+manifests:
+  rawYaml:
+    - deploy/postgres/k8s/statefulset.yaml
+    - deploy/postgres/k8s/service.yaml
+    - deploy/postgres/k8s/secret.yaml
+---
+apiVersion: skaffold/v4beta13
+kind: Config
+metadata:
+  name: migrate
+requires:
+  - configs:
+      - infra
+    path: .
+build:
+  local:
+    push: true
+  artifacts:
+    - image: order-migrate
+      docker:
+        dockerfile: deploy/order/images/migrate.Dockerfile
+manifests:
+  rawYaml:
+    - deploy/order/k8s/migrate-job.yaml
+---
+apiVersion: skaffold/v4beta13
+kind: Config
+metadata:
+  name: services
+requires:
+  - configs:
+      - infra
+    path: .
 build:
   local:
     push: true
@@ -14,6 +47,7 @@ build:
         main: ./cmd/order
 manifests:
   rawYaml:
-    - deploy/k8s/gateway.yaml
-    - deploy/k8s/order.yaml
-    - deploy/k8s/postgres.yaml
+    - deploy/gateway/k8s/deployment.yaml
+    - deploy/gateway/k8s/service.yaml
+    - deploy/order/k8s/deployment.yaml
+    - deploy/order/k8s/service.yaml

@@ -18,6 +18,13 @@ spec:
           ports:
             - name: http
               containerPort: 8080
+          resources:
+            requests:
+              cpu: 50m
+              memory: 128Mi
+            limits:
+              cpu: 500m
+              memory: 256Mi
           env:
             - name: HTTP_ADDR
               value: ":8080"
@@ -25,15 +32,3 @@ spec:
               value: gateway
             - name: ORDER_GRPC_ADDR
               value: "order:50051"
----
-apiVersion: v1
-kind: Service
-metadata:
-  name: gateway
-spec:
-  selector:
-    app: gateway
-  ports:
-    - name: http
-      port: 8080
-      targetPort: http

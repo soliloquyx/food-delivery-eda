@@ -1,8 +1,9 @@
 apiVersion: apps/v1
-kind: Deployment
+kind: StatefulSet
 metadata:
   name: postgres
 spec:
+  serviceName: postgres
   replicas: 1
   selector:
     matchLabels:
@@ -18,13 +19,9 @@ spec:
           ports:
             - name: pg
               containerPort: 5432
-          env:
-            - name: POSTGRES_USER
-              value: app
-            - name: POSTGRES_PASSWORD
-              value: app
-            - name: POSTGRES_DB
-              value: order
+          envFrom:
+            - secretRef:
+                name: postgres
           readinessProbe:
             exec:
               command:
@@ -39,18 +36,11 @@ spec:
           volumeMounts:
             - name: data
               mountPath: /var/lib/postgresql
-      volumes:
-        - name: data
-          emptyDir: {}
----
-apiVersion: v1
-kind: Service
-metadata:
-  name: postgres
-spec:
-  selector:
-    app: postgres
-  ports:
-    - name: pg
-      port: 5432
-      targetPort: pg
+  volumeClaimTemplates:
+    - metadata:
+        name: data
+      spec:
+        accessModes: ["ReadWriteOnce"]
+        resources:
+          requests:
+            storage: 1Gi
