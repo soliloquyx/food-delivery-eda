@@ -22,7 +22,7 @@ func itemsToProto(items []orderapp.Item) []*orderv1.Item {
 	var protoItems []*orderv1.Item
 	for _, it := range items {
 		protoItems = append(protoItems, &orderv1.Item{
-			Id:       it.ID,
+			Id:       it.ID.String(),
 			Quantity: it.Quantity,
 			Comment:  it.Comment,
 		})

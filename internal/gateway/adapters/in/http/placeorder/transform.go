@@ -1,32 +1,50 @@
 package placeorder
 
-import "github.com/soliloquyx/food-delivery-eda/internal/gateway/app/order"
+import (
+	"github.com/google/uuid"
+	"github.com/soliloquyx/food-delivery-eda/internal/gateway/app/order"
+)
 
-func ToInput(body Request) order.PlaceInput {
+func ToInput(body Request) (order.PlaceInput, error) {
 	var inputItems []order.Item
 	for _, it := range body.Items {
+		itemID, err := uuid.Parse(it.ID)
+		if err != nil {
+			return order.PlaceInput{}, err
+		}
+
 		inputItems = append(inputItems, order.Item{
-			ID:       it.ID,
+			ID:       itemID,
 			Quantity: it.Quantity,
 			Comment:  it.Comment,
 		})
 	}
 
+	userID, err := uuid.Parse(body.UserID)
+	if err != nil {
+		return order.PlaceInput{}, err
+	}
+
+	restaurantID, err := uuid.Parse(body.RestaurantID)
+	if err != nil {
+		return order.PlaceInput{}, err
+	}
+
 	return order.PlaceInput{
-		UserID:       body.UserID,
-		RestaurantID: body.RestaurantID,
+		UserID:       userID,
+		RestaurantID: restaurantID,
 		Items:        inputItems,
 		Delivery: order.Delivery{
 			Type:    order.DeliveryType(body.Delivery.Type),
 			Address: body.Delivery.Address,
 			Comment: body.Delivery.Comment,
 		},
-	}
+	}, nil
 }
 
 func ToResponse(result order.PlaceResult) Response {
 	return Response{
-		OrderID: result.OrderID,
+		OrderID: result.OrderID.String(),
 		Status:  string(result.Status),
 	}
 }

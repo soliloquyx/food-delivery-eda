@@ -1,7 +1,7 @@
 package placeorder
 
 type item struct {
-	ID       int64  `json:"id"`
+	ID       string `json:"id"`
 	Quantity int32  `json:"quantity"`
 	Comment  string `json:"comment"`
 }
@@ -13,13 +13,13 @@ type delivery struct {
 }
 
 type Request struct {
-	UserID       int64  `json:"user_id"`
-	RestaurantID int64  `json:"restaurant_id"`
+	UserID       string `json:"user_id"`
+	RestaurantID string `json:"restaurant_id"`
 	Items        []item `json:"items"`
 	Delivery     delivery
 }
 
 type Response struct {
-	OrderID int64  `json:"order_id"`
+	OrderID string `json:"order_id"`
 	Status  string `json:"status"`
 }

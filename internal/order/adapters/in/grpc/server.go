@@ -20,7 +20,10 @@ func NewServer(s app.Service) orderv1.OrderServiceServer {
 }
 
 func (s *server) PlaceOrder(ctx context.Context, req *orderv1.PlaceOrderRequest) (*orderv1.PlaceOrderResponse, error) {
-	in := placeorder.ToInput(req)
+	in, err := placeorder.ToInput(req)
+	if err != nil {
+		return nil, err
+	}
 
 	result, err := s.svc.PlaceOrder(ctx, in)
 	if err != nil {

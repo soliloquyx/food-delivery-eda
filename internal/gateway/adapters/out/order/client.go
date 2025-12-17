@@ -3,6 +3,7 @@ package order
 import (
 	"context"
 
+	"github.com/google/uuid"
 	orderapp "github.com/soliloquyx/food-delivery-eda/internal/gateway/app/order"
 	orderv1 "github.com/soliloquyx/food-delivery-eda/internal/genproto/order/v1"
 )
@@ -13,8 +14,8 @@ type Client struct {
 
 func (c *Client) Place(ctx context.Context, in orderapp.PlaceInput) (orderapp.PlaceResult, error) {
 	req := &orderv1.PlaceOrderRequest{
-		UserId:       in.UserID,
-		RestaurantId: in.RestaurantID,
+		UserId:       in.UserID.String(),
+		RestaurantId: in.RestaurantID.String(),
 		Items:        itemsToProto(in.Items),
 		Delivery:     deliveryToProto(in.Delivery),
 	}
@@ -24,8 +25,13 @@ func (c *Client) Place(ctx context.Context, in orderapp.PlaceInput) (orderapp.Pl
 		return orderapp.PlaceResult{}, err
 	}
 
+	orderID, err := uuid.Parse(resp.GetOrderId())
+	if err != nil {
+		return orderapp.PlaceResult{}, err
+	}
+
 	return orderapp.PlaceResult{
-		OrderID: resp.GetOrderId(),
+		OrderID: orderID,
 		Status:  statusFromProto(resp.GetStatus()),
 	}, nil
 }

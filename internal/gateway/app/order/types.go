@@ -1,5 +1,7 @@
 package order
 
+import "github.com/google/uuid"
+
 type Status string
 
 const (
@@ -18,7 +20,7 @@ const (
 )
 
 type Item struct {
-	ID       int64
+	ID       uuid.UUID
 	Quantity int32
 	Comment  string
 }
@@ -30,13 +32,13 @@ type Delivery struct {
 }
 
 type PlaceInput struct {
-	UserID       int64
-	RestaurantID int64
+	UserID       uuid.UUID
+	RestaurantID uuid.UUID
 	Items        []Item
 	Delivery     Delivery
 }
 
 type PlaceResult struct {
-	OrderID int64
+	OrderID uuid.UUID
 	Status  Status
 }
