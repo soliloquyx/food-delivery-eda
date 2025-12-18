@@ -18,7 +18,7 @@ func statusFromProto(s orderv1.Status) orderapp.Status {
 	}
 }
 
-func itemsToProto(items []orderapp.Item) []*orderv1.Item {
+func itemsToProto(items []orderapp.OrderItem) []*orderv1.Item {
 	var protoItems []*orderv1.Item
 	for _, it := range items {
 		protoItems = append(protoItems, &orderv1.Item{

@@ -12,7 +12,7 @@ type Client struct {
 	svc orderv1.OrderServiceClient
 }
 
-func (c *Client) Place(ctx context.Context, in orderapp.PlaceInput) (orderapp.PlaceResult, error) {
+func (c *Client) PlaceOrder(ctx context.Context, in orderapp.PlaceInput) (orderapp.PlaceResult, error) {
 	req := &orderv1.PlaceOrderRequest{
 		UserId:       in.UserID.String(),
 		RestaurantId: in.RestaurantID.String(),

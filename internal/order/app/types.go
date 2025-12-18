@@ -19,7 +19,7 @@ const (
 	DeliveryTypePickup   DeliveryType = "pickup"
 )
 
-type Item struct {
+type OrderItem struct {
 	ID       uuid.UUID
 	Quantity int32
 	Comment  string
@@ -34,7 +34,7 @@ type Delivery struct {
 type PlaceOrderInput struct {
 	UserID       uuid.UUID
 	RestaurantID uuid.UUID
-	Items        []Item
+	Items        []OrderItem
 	Delivery     Delivery
 }
 

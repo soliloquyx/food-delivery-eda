@@ -6,14 +6,14 @@ import (
 )
 
 func ToInput(body Request) (order.PlaceInput, error) {
-	var inputItems []order.Item
+	var inputItems []order.OrderItem
 	for _, it := range body.Items {
 		itemID, err := uuid.Parse(it.ID)
 		if err != nil {
 			return order.PlaceInput{}, err
 		}
 
-		inputItems = append(inputItems, order.Item{
+		inputItems = append(inputItems, order.OrderItem{
 			ID:       itemID,
 			Quantity: it.Quantity,
 			Comment:  it.Comment,

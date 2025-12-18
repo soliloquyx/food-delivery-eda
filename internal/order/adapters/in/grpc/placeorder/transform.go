@@ -20,9 +20,9 @@ func statusToProto(s app.Status) orderv1.Status {
 }
 
 func ToInput(req *orderv1.PlaceOrderRequest) (app.PlaceOrderInput, error) {
-	items := make([]app.Item, len(req.Items))
+	items := make([]app.OrderItem, len(req.Items))
 	for _, it := range items {
-		items = append(items, app.Item{
+		items = append(items, app.OrderItem{
 			ID:       it.ID,
 			Quantity: it.Quantity,
 			Comment:  it.Comment,

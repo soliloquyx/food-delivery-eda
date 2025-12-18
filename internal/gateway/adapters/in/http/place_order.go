@@ -20,7 +20,7 @@ func (h *handler) PlaceOrder(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
-	result, err := h.order.Place(r.Context(), in)
+	result, err := h.order.PlaceOrder(r.Context(), in)
 	if err != nil {
 		writeError(w, http.StatusInternalServerError, "")
 		return
