@@ -1,15 +1,11 @@
 package app
 
-import (
-	"context"
-)
-
-type Service interface {
-	PlaceOrder(ctx context.Context, in PlaceOrderInput) (PlaceOrderResult, error)
+type service struct {
+	orderRepo OrderRepo
 }
 
-type service struct{}
-
-func NewService() *service {
-	return &service{}
+func NewService(or OrderRepo) *service {
+	return &service{
+		orderRepo: or,
+	}
 }

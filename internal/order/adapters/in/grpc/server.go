@@ -10,10 +10,14 @@ import (
 
 type server struct {
 	orderv1.UnimplementedOrderServiceServer
-	svc app.Service
+	svc Service
 }
 
-func NewServer(s app.Service) orderv1.OrderServiceServer {
+type Service interface {
+	PlaceOrder(ctx context.Context, in app.PlaceOrderInput) (app.PlaceOrderResult, error)
+}
+
+func NewServer(s Service) orderv1.OrderServiceServer {
 	return &server{
 		svc: s,
 	}

@@ -12,8 +12,10 @@ func (s *service) PlaceOrder(ctx context.Context, in PlaceOrderInput) (PlaceOrde
 		return PlaceOrderResult{}, err
 	}
 
-	return PlaceOrderResult{
-		OrderID: orderID,
-		Status:  StatusConfirmed,
-	}, nil
+	result, err := s.orderRepo.Create(ctx, orderID, in)
+	if err != nil {
+		return PlaceOrderResult{}, err
+	}
+
+	return result, nil
 }

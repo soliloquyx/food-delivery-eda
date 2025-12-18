@@ -1,6 +1,10 @@
 package app
 
-import "github.com/google/uuid"
+import (
+	"context"
+
+	"github.com/google/uuid"
+)
 
 type Status string
 
@@ -41,4 +45,8 @@ type PlaceOrderInput struct {
 type PlaceOrderResult struct {
 	OrderID uuid.UUID
 	Status  Status
+}
+
+type OrderRepo interface {
+	Create(ctx context.Context, orderID uuid.UUID, in PlaceOrderInput) (PlaceOrderResult, error)
 }

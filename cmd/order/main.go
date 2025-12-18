@@ -9,6 +9,7 @@ import (
 
 	orderv1 "github.com/soliloquyx/food-delivery-eda/internal/genproto/order/v1"
 	grpcin "github.com/soliloquyx/food-delivery-eda/internal/order/adapters/in/grpc"
+	"github.com/soliloquyx/food-delivery-eda/internal/order/adapters/out/postgres"
 	"github.com/soliloquyx/food-delivery-eda/internal/order/app"
 	"github.com/soliloquyx/food-delivery-eda/internal/order/config"
 	"google.golang.org/grpc"
@@ -25,7 +26,13 @@ func run(ctx context.Context) error {
 		return err
 	}
 
-	svc := app.NewService()
+	db, err := postgres.NewPool(ctx, cfg.DatabaseURL)
+	if err != nil {
+		return err
+	}
+
+	orderRepo := postgres.NewOrderRepo(db)
+	svc := app.NewService(&orderRepo)
 	grpcServer := grpc.NewServer()
 	orderv1.RegisterOrderServiceServer(grpcServer, grpcin.NewServer(svc))
 
