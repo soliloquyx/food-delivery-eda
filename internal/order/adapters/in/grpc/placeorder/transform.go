@@ -22,13 +22,13 @@ func statusToProto(s order.Status) orderv1.Status {
 func ToInput(req *orderv1.PlaceOrderRequest) (order.PlaceOrderInput, error) {
 	items := make([]order.OrderItem, len(req.Items))
 	for _, it := range req.Items {
-		itemID, err := uuid.Parse(it.Id)
+		itemID, err := uuid.Parse(it.ItemId)
 		if err != nil {
 			return order.PlaceOrderInput{}, err
 		}
 
 		items = append(items, order.OrderItem{
-			ID:       itemID,
+			ItemID:   itemID,
 			Quantity: it.Quantity,
 			Comment:  it.Comment,
 		})
@@ -45,11 +45,11 @@ func ToInput(req *orderv1.PlaceOrderRequest) (order.PlaceOrderInput, error) {
 	}
 
 	return order.PlaceOrderInput{
-		UserID:       userID,
-		RestaurantID: restaurantID,
-		Items:        items,
-		Delivery: order.Delivery{
-			Type:    order.DeliveryType(req.Delivery.Type),
+		UserID:          userID,
+		RestaurantID:    restaurantID,
+		Items:           items,
+		FulfillmentType: order.FulfillmentType(req.FulfillmentType),
+		Delivery: &order.Delivery{
 			Address: req.Delivery.Address,
 			Comment: req.Delivery.Comment,
 		},

@@ -12,25 +12,29 @@ type Client struct {
 	svc orderv1.OrderServiceClient
 }
 
-func (c *Client) PlaceOrder(ctx context.Context, in orderapp.PlaceInput) (orderapp.PlaceResult, error) {
+func (c *Client) PlaceOrder(ctx context.Context, in orderapp.PlaceOrderInput) (orderapp.PlaceOrderResult, error) {
 	req := &orderv1.PlaceOrderRequest{
-		UserId:       in.UserID.String(),
-		RestaurantId: in.RestaurantID.String(),
-		Items:        itemsToProto(in.Items),
-		Delivery:     deliveryToProto(in.Delivery),
+		UserId:          in.UserID.String(),
+		RestaurantId:    in.RestaurantID.String(),
+		Items:           itemsToProto(in.Items),
+		FulfillmentType: fulfillmentTypeToProto(in.FulfillmentType),
+	}
+
+	if in.Delivery != nil {
+		req.Delivery = deliveryToProto(*in.Delivery)
 	}
 
 	resp, err := c.svc.PlaceOrder(ctx, req)
 	if err != nil {
-		return orderapp.PlaceResult{}, err
+		return orderapp.PlaceOrderResult{}, err
 	}
 
 	orderID, err := uuid.Parse(resp.GetOrderId())
 	if err != nil {
-		return orderapp.PlaceResult{}, err
+		return orderapp.PlaceOrderResult{}, err
 	}
 
-	return orderapp.PlaceResult{
+	return orderapp.PlaceOrderResult{
 		OrderID:   orderID,
 		Status:    statusFromProto(resp.GetStatus()),
 		CreatedAt: resp.CreatedAt.AsTime(),

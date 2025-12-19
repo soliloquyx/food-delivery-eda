@@ -18,11 +18,11 @@ func statusFromProto(s orderv1.Status) orderapp.Status {
 	}
 }
 
-func itemsToProto(items []orderapp.OrderItem) []*orderv1.Item {
-	var protoItems []*orderv1.Item
+func itemsToProto(items []orderapp.OrderItem) []*orderv1.OrderItem {
+	var protoItems []*orderv1.OrderItem
 	for _, it := range items {
-		protoItems = append(protoItems, &orderv1.Item{
-			Id:       it.ID.String(),
+		protoItems = append(protoItems, &orderv1.OrderItem{
+			ItemId:   it.ItemID.String(),
 			Quantity: it.Quantity,
 			Comment:  it.Comment,
 		})
@@ -31,20 +31,19 @@ func itemsToProto(items []orderapp.OrderItem) []*orderv1.Item {
 	return protoItems
 }
 
-func typeToProto(t orderapp.DeliveryType) orderv1.DeliveryType {
+func fulfillmentTypeToProto(t orderapp.FulfillmentType) orderv1.FulfillmentType {
 	switch t {
-	case orderapp.DeliveryTypeDelivery:
-		return orderv1.DeliveryType_DELIVERY_TYPE_DELIVERY
-	case orderapp.DeliveryTypePickup:
-		return orderv1.DeliveryType_DELIVERY_TYPE_PICKUP
+	case orderapp.FulfillmentTypeDelivery:
+		return orderv1.FulfillmentType_FULFILLMENT_TYPE_FULFILLMENT
+	case orderapp.FulfillmentTypePickup:
+		return orderv1.FulfillmentType_FULFILLMENT_TYPE_PICKUP
 	default:
-		return orderv1.DeliveryType_DELIVERY_TYPE_UNSPECIFIED
+		return orderv1.FulfillmentType_FULFILLMENT_TYPE_UNSPECIFIED
 	}
 }
 
 func deliveryToProto(d orderapp.Delivery) *orderv1.Delivery {
 	return &orderv1.Delivery{
-		Type:    typeToProto(d.Type),
 		Address: d.Address,
 		Comment: d.Comment,
 	}

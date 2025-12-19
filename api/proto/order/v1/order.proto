@@ -4,10 +4,10 @@ package order.v1;
 
 import "google/protobuf/timestamp.proto";
 
-enum DeliveryType {
-    DELIVERY_TYPE_UNSPECIFIED = 0;
-    DELIVERY_TYPE_DELIVERY = 1;
-    DELIVERY_TYPE_PICKUP = 2;
+enum FulfillmentType {
+    FULFILLMENT_TYPE_UNSPECIFIED = 0;
+    FULFILLMENT_TYPE_FULFILLMENT = 1;
+    FULFILLMENT_TYPE_PICKUP = 2;
 }
 
 enum Status {
@@ -17,23 +17,23 @@ enum Status {
     STATUS_CANCELLED = 3;
 }
 
-message Item {
-    string id = 1;
+message OrderItem {
+    string item_id = 1;
     int32 quantity = 2;
     string comment = 3;
 }
 
 message Delivery {
-    DeliveryType type = 1;
-    string address = 2;
-    string comment = 3;
+    string address = 1;
+    string comment = 2;
 }
 
 message PlaceOrderRequest {
     string user_id = 1;
     string restaurant_id = 2;
-    repeated Item items = 3;
-    Delivery delivery = 4;    
+    repeated OrderItem items = 3;
+    FulfillmentType fulfillment_type = 4;
+    Delivery delivery = 5;
 }
 
 message PlaceOrderResponse {

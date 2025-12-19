@@ -22,52 +22,52 @@ const (
 	_ = protoimpl.EnforceVersion(protoimpl.MaxVersion - 20)
 )
 
-type DeliveryType int32
+type FulfillmentType int32
 
 const (
-	DeliveryType_DELIVERY_TYPE_UNSPECIFIED DeliveryType = 0
-	DeliveryType_DELIVERY_TYPE_DELIVERY    DeliveryType = 1
-	DeliveryType_DELIVERY_TYPE_PICKUP      DeliveryType = 2
+	FulfillmentType_FULFILLMENT_TYPE_UNSPECIFIED FulfillmentType = 0
+	FulfillmentType_FULFILLMENT_TYPE_FULFILLMENT FulfillmentType = 1
+	FulfillmentType_FULFILLMENT_TYPE_PICKUP      FulfillmentType = 2
 )
 
-// Enum value maps for DeliveryType.
+// Enum value maps for FulfillmentType.
 var (
-	DeliveryType_name = map[int32]string{
-		0: "DELIVERY_TYPE_UNSPECIFIED",
-		1: "DELIVERY_TYPE_DELIVERY",
-		2: "DELIVERY_TYPE_PICKUP",
+	FulfillmentType_name = map[int32]string{
+		0: "FULFILLMENT_TYPE_UNSPECIFIED",
+		1: "FULFILLMENT_TYPE_FULFILLMENT",
+		2: "FULFILLMENT_TYPE_PICKUP",
 	}
-	DeliveryType_value = map[string]int32{
-		"DELIVERY_TYPE_UNSPECIFIED": 0,
-		"DELIVERY_TYPE_DELIVERY":    1,
-		"DELIVERY_TYPE_PICKUP":      2,
+	FulfillmentType_value = map[string]int32{
+		"FULFILLMENT_TYPE_UNSPECIFIED": 0,
+		"FULFILLMENT_TYPE_FULFILLMENT": 1,
+		"FULFILLMENT_TYPE_PICKUP":      2,
 	}
 )
 
-func (x DeliveryType) Enum() *DeliveryType {
-	p := new(DeliveryType)
+func (x FulfillmentType) Enum() *FulfillmentType {
+	p := new(FulfillmentType)
 	*p = x
 	return p
 }
 
-func (x DeliveryType) String() string {
+func (x FulfillmentType) String() string {
 	return protoimpl.X.EnumStringOf(x.Descriptor(), protoreflect.EnumNumber(x))
 }
 
-func (DeliveryType) Descriptor() protoreflect.EnumDescriptor {
+func (FulfillmentType) Descriptor() protoreflect.EnumDescriptor {
 	return file_order_v1_order_proto_enumTypes[0].Descriptor()
 }
 
-func (DeliveryType) Type() protoreflect.EnumType {
+func (FulfillmentType) Type() protoreflect.EnumType {
 	return &file_order_v1_order_proto_enumTypes[0]
 }
 
-func (x DeliveryType) Number() protoreflect.EnumNumber {
+func (x FulfillmentType) Number() protoreflect.EnumNumber {
 	return protoreflect.EnumNumber(x)
 }
 
-// Deprecated: Use DeliveryType.Descriptor instead.
-func (DeliveryType) EnumDescriptor() ([]byte, []int) {
+// Deprecated: Use FulfillmentType.Descriptor instead.
+func (FulfillmentType) EnumDescriptor() ([]byte, []int) {
 	return file_order_v1_order_proto_rawDescGZIP(), []int{0}
 }
 
@@ -123,29 +123,29 @@ func (Status) EnumDescriptor() ([]byte, []int) {
 	return file_order_v1_order_proto_rawDescGZIP(), []int{1}
 }
 
-type Item struct {
+type OrderItem struct {
 	state         protoimpl.MessageState `protogen:"open.v1"`
-	Id            string                 `protobuf:"bytes,1,opt,name=id,proto3" json:"id,omitempty"`
+	ItemId        string                 `protobuf:"bytes,1,opt,name=item_id,json=itemId,proto3" json:"item_id,omitempty"`
 	Quantity      int32                  `protobuf:"varint,2,opt,name=quantity,proto3" json:"quantity,omitempty"`
 	Comment       string                 `protobuf:"bytes,3,opt,name=comment,proto3" json:"comment,omitempty"`
 	unknownFields protoimpl.UnknownFields
 	sizeCache     protoimpl.SizeCache
 }
 
-func (x *Item) Reset() {
-	*x = Item{}
+func (x *OrderItem) Reset() {
+	*x = OrderItem{}
 	mi := &file_order_v1_order_proto_msgTypes[0]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
 
-func (x *Item) String() string {
+func (x *OrderItem) String() string {
 	return protoimpl.X.MessageStringOf(x)
 }
 
-func (*Item) ProtoMessage() {}
+func (*OrderItem) ProtoMessage() {}
 
-func (x *Item) ProtoReflect() protoreflect.Message {
+func (x *OrderItem) ProtoReflect() protoreflect.Message {
 	mi := &file_order_v1_order_proto_msgTypes[0]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
@@ -157,26 +157,26 @@ func (x *Item) ProtoReflect() protoreflect.Message {
 	return mi.MessageOf(x)
 }
 
-// Deprecated: Use Item.ProtoReflect.Descriptor instead.
-func (*Item) Descriptor() ([]byte, []int) {
+// Deprecated: Use OrderItem.ProtoReflect.Descriptor instead.
+func (*OrderItem) Descriptor() ([]byte, []int) {
 	return file_order_v1_order_proto_rawDescGZIP(), []int{0}
 }
 
-func (x *Item) GetId() string {
+func (x *OrderItem) GetItemId() string {
 	if x != nil {
-		return x.Id
+		return x.ItemId
 	}
 	return ""
 }
 
-func (x *Item) GetQuantity() int32 {
+func (x *OrderItem) GetQuantity() int32 {
 	if x != nil {
 		return x.Quantity
 	}
 	return 0
 }
 
-func (x *Item) GetComment() string {
+func (x *OrderItem) GetComment() string {
 	if x != nil {
 		return x.Comment
 	}
@@ -185,9 +185,8 @@ func (x *Item) GetComment() string {
 
 type Delivery struct {
 	state         protoimpl.MessageState `protogen:"open.v1"`
-	Type          DeliveryType           `protobuf:"varint,1,opt,name=type,proto3,enum=order.v1.DeliveryType" json:"type,omitempty"`
-	Address       string                 `protobuf:"bytes,2,opt,name=address,proto3" json:"address,omitempty"`
-	Comment       string                 `protobuf:"bytes,3,opt,name=comment,proto3" json:"comment,omitempty"`
+	Address       string                 `protobuf:"bytes,1,opt,name=address,proto3" json:"address,omitempty"`
+	Comment       string                 `protobuf:"bytes,2,opt,name=comment,proto3" json:"comment,omitempty"`
 	unknownFields protoimpl.UnknownFields
 	sizeCache     protoimpl.SizeCache
 }
@@ -222,13 +221,6 @@ func (*Delivery) Descriptor() ([]byte, []int) {
 	return file_order_v1_order_proto_rawDescGZIP(), []int{1}
 }
 
-func (x *Delivery) GetType() DeliveryType {
-	if x != nil {
-		return x.Type
-	}
-	return DeliveryType_DELIVERY_TYPE_UNSPECIFIED
-}
-
 func (x *Delivery) GetAddress() string {
 	if x != nil {
 		return x.Address
@@ -244,13 +236,14 @@ func (x *Delivery) GetComment() string {
 }
 
 type PlaceOrderRequest struct {
-	state         protoimpl.MessageState `protogen:"open.v1"`
-	UserId        string                 `protobuf:"bytes,1,opt,name=user_id,json=userId,proto3" json:"user_id,omitempty"`
-	RestaurantId  string                 `protobuf:"bytes,2,opt,name=restaurant_id,json=restaurantId,proto3" json:"restaurant_id,omitempty"`
-	Items         []*Item                `protobuf:"bytes,3,rep,name=items,proto3" json:"items,omitempty"`
-	Delivery      *Delivery              `protobuf:"bytes,4,opt,name=delivery,proto3" json:"delivery,omitempty"`
-	unknownFields protoimpl.UnknownFields
-	sizeCache     protoimpl.SizeCache
+	state           protoimpl.MessageState `protogen:"open.v1"`
+	UserId          string                 `protobuf:"bytes,1,opt,name=user_id,json=userId,proto3" json:"user_id,omitempty"`
+	RestaurantId    string                 `protobuf:"bytes,2,opt,name=restaurant_id,json=restaurantId,proto3" json:"restaurant_id,omitempty"`
+	Items           []*OrderItem           `protobuf:"bytes,3,rep,name=items,proto3" json:"items,omitempty"`
+	FulfillmentType FulfillmentType        `protobuf:"varint,4,opt,name=fulfillment_type,json=fulfillmentType,proto3,enum=order.v1.FulfillmentType" json:"fulfillment_type,omitempty"`
+	Delivery        *Delivery              `protobuf:"bytes,5,opt,name=delivery,proto3" json:"delivery,omitempty"`
+	unknownFields   protoimpl.UnknownFields
+	sizeCache       protoimpl.SizeCache
 }
 
 func (x *PlaceOrderRequest) Reset() {
@@ -297,11 +290,18 @@ func (x *PlaceOrderRequest) GetRestaurantId() string {
 	return ""
 }
 
-func (x *PlaceOrderRequest) GetItems() []*Item {
+func (x *PlaceOrderRequest) GetItems() []*OrderItem {
 	if x != nil {
 		return x.Items
 	}
 	return nil
+}
+
+func (x *PlaceOrderRequest) GetFulfillmentType() FulfillmentType {
+	if x != nil {
+		return x.FulfillmentType
+	}
+	return FulfillmentType_FULFILLMENT_TYPE_UNSPECIFIED
 }
 
 func (x *PlaceOrderRequest) GetDelivery() *Delivery {
@@ -375,29 +375,29 @@ var File_order_v1_order_proto protoreflect.FileDescriptor
 
 const file_order_v1_order_proto_rawDesc = "" +
 	"\n" +
-	"\x14order/v1/order.proto\x12\border.v1\x1a\x1fgoogle/protobuf/timestamp.proto\"L\n" +
-	"\x04Item\x12\x0e\n" +
-	"\x02id\x18\x01 \x01(\tR\x02id\x12\x1a\n" +
+	"\x14order/v1/order.proto\x12\border.v1\x1a\x1fgoogle/protobuf/timestamp.proto\"Z\n" +
+	"\tOrderItem\x12\x17\n" +
+	"\aitem_id\x18\x01 \x01(\tR\x06itemId\x12\x1a\n" +
 	"\bquantity\x18\x02 \x01(\x05R\bquantity\x12\x18\n" +
-	"\acomment\x18\x03 \x01(\tR\acomment\"j\n" +
-	"\bDelivery\x12*\n" +
-	"\x04type\x18\x01 \x01(\x0e2\x16.order.v1.DeliveryTypeR\x04type\x12\x18\n" +
-	"\aaddress\x18\x02 \x01(\tR\aaddress\x12\x18\n" +
-	"\acomment\x18\x03 \x01(\tR\acomment\"\xa7\x01\n" +
+	"\acomment\x18\x03 \x01(\tR\acomment\">\n" +
+	"\bDelivery\x12\x18\n" +
+	"\aaddress\x18\x01 \x01(\tR\aaddress\x12\x18\n" +
+	"\acomment\x18\x02 \x01(\tR\acomment\"\xf2\x01\n" +
 	"\x11PlaceOrderRequest\x12\x17\n" +
 	"\auser_id\x18\x01 \x01(\tR\x06userId\x12#\n" +
-	"\rrestaurant_id\x18\x02 \x01(\tR\frestaurantId\x12$\n" +
-	"\x05items\x18\x03 \x03(\v2\x0e.order.v1.ItemR\x05items\x12.\n" +
-	"\bdelivery\x18\x04 \x01(\v2\x12.order.v1.DeliveryR\bdelivery\"\x94\x01\n" +
+	"\rrestaurant_id\x18\x02 \x01(\tR\frestaurantId\x12)\n" +
+	"\x05items\x18\x03 \x03(\v2\x13.order.v1.OrderItemR\x05items\x12D\n" +
+	"\x10fulfillment_type\x18\x04 \x01(\x0e2\x19.order.v1.FulfillmentTypeR\x0ffulfillmentType\x12.\n" +
+	"\bdelivery\x18\x05 \x01(\v2\x12.order.v1.DeliveryR\bdelivery\"\x94\x01\n" +
 	"\x12PlaceOrderResponse\x12\x19\n" +
 	"\border_id\x18\x01 \x01(\tR\aorderId\x12(\n" +
 	"\x06status\x18\x02 \x01(\x0e2\x10.order.v1.StatusR\x06status\x129\n" +
 	"\n" +
-	"created_at\x18\x03 \x01(\v2\x1a.google.protobuf.TimestampR\tcreatedAt*c\n" +
-	"\fDeliveryType\x12\x1d\n" +
-	"\x19DELIVERY_TYPE_UNSPECIFIED\x10\x00\x12\x1a\n" +
-	"\x16DELIVERY_TYPE_DELIVERY\x10\x01\x12\x18\n" +
-	"\x14DELIVERY_TYPE_PICKUP\x10\x02*`\n" +
+	"created_at\x18\x03 \x01(\v2\x1a.google.protobuf.TimestampR\tcreatedAt*r\n" +
+	"\x0fFulfillmentType\x12 \n" +
+	"\x1cFULFILLMENT_TYPE_UNSPECIFIED\x10\x00\x12 \n" +
+	"\x1cFULFILLMENT_TYPE_FULFILLMENT\x10\x01\x12\x1b\n" +
+	"\x17FULFILLMENT_TYPE_PICKUP\x10\x02*`\n" +
 	"\x06Status\x12\x16\n" +
 	"\x12STATUS_UNSPECIFIED\x10\x00\x12\x12\n" +
 	"\x0eSTATUS_PENDING\x10\x01\x12\x14\n" +
@@ -424,17 +424,17 @@ func file_order_v1_order_proto_rawDescGZIP() []byte {
 var file_order_v1_order_proto_enumTypes = make([]protoimpl.EnumInfo, 2)
 var file_order_v1_order_proto_msgTypes = make([]protoimpl.MessageInfo, 4)
 var file_order_v1_order_proto_goTypes = []any{
-	(DeliveryType)(0),             // 0: order.v1.DeliveryType
+	(FulfillmentType)(0),          // 0: order.v1.FulfillmentType
 	(Status)(0),                   // 1: order.v1.Status
-	(*Item)(nil),                  // 2: order.v1.Item
+	(*OrderItem)(nil),             // 2: order.v1.OrderItem
 	(*Delivery)(nil),              // 3: order.v1.Delivery
 	(*PlaceOrderRequest)(nil),     // 4: order.v1.PlaceOrderRequest
 	(*PlaceOrderResponse)(nil),    // 5: order.v1.PlaceOrderResponse
 	(*timestamppb.Timestamp)(nil), // 6: google.protobuf.Timestamp
 }
 var file_order_v1_order_proto_depIdxs = []int32{
-	0, // 0: order.v1.Delivery.type:type_name -> order.v1.DeliveryType
-	2, // 1: order.v1.PlaceOrderRequest.items:type_name -> order.v1.Item
+	2, // 0: order.v1.PlaceOrderRequest.items:type_name -> order.v1.OrderItem
+	0, // 1: order.v1.PlaceOrderRequest.fulfillment_type:type_name -> order.v1.FulfillmentType
 	3, // 2: order.v1.PlaceOrderRequest.delivery:type_name -> order.v1.Delivery
 	1, // 3: order.v1.PlaceOrderResponse.status:type_name -> order.v1.Status
 	6, // 4: order.v1.PlaceOrderResponse.created_at:type_name -> google.protobuf.Timestamp

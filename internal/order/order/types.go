@@ -16,31 +16,31 @@ const (
 	StatusCancelled Status = "cancelled"
 )
 
-type DeliveryType string
+type FulfillmentType string
 
 const (
-	DeliveryTypeUnknown  DeliveryType = "unknown"
-	DeliveryTypeDelivery DeliveryType = "delivery"
-	DeliveryTypePickup   DeliveryType = "pickup"
+	FulfillmentTypeUnknown  FulfillmentType = "unknown"
+	FulfillmentTypeDelivery FulfillmentType = "delivery"
+	FulfillmentTypePickup   FulfillmentType = "pickup"
 )
 
 type OrderItem struct {
-	ID       uuid.UUID
+	ItemID   uuid.UUID
 	Quantity int32
 	Comment  string
 }
 
 type Delivery struct {
-	Type    DeliveryType
 	Address string
 	Comment string
 }
 
 type PlaceOrderInput struct {
-	UserID       uuid.UUID
-	RestaurantID uuid.UUID
-	Items        []OrderItem
-	Delivery     Delivery
+	UserID          uuid.UUID
+	RestaurantID    uuid.UUID
+	Items           []OrderItem
+	FulfillmentType FulfillmentType
+	Delivery        *Delivery
 }
 
 type PlaceOrderResult struct {

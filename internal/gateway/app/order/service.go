@@ -5,11 +5,11 @@ import (
 )
 
 type Service interface {
-	PlaceOrder(ctx context.Context, in PlaceInput) (PlaceResult, error)
+	PlaceOrder(ctx context.Context, in PlaceOrderInput) (PlaceOrderResult, error)
 }
 
 type Client interface {
-	PlaceOrder(ctx context.Context, in PlaceInput) (PlaceResult, error)
+	PlaceOrder(ctx context.Context, in PlaceOrderInput) (PlaceOrderResult, error)
 }
 
 type service struct {

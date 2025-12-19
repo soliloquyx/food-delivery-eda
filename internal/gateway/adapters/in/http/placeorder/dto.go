@@ -3,22 +3,22 @@ package placeorder
 import "time"
 
 type item struct {
-	ID       string `json:"id"`
+	ItemID   string `json:"item_id"`
 	Quantity int32  `json:"quantity"`
-	Comment  string `json:"comment"`
+	Comment  string `json:"comment,omitempty"`
 }
 
 type delivery struct {
-	Type    string `json:"type"`
-	Address string `json:"address,omitempty"`
-	Comment string `json:"comment"`
+	Address string `json:"address"`
+	Comment string `json:"comment,omitempty"`
 }
 
 type Request struct {
-	UserID       string `json:"user_id"`
-	RestaurantID string `json:"restaurant_id"`
-	Items        []item `json:"items"`
-	Delivery     delivery
+	UserID          string    `json:"user_id"`
+	RestaurantID    string    `json:"restaurant_id"`
+	Items           []item    `json:"items"`
+	FulfillmentType string    `json:"fulfillment_type"`
+	Delivery        *delivery `json:"delivery,omitempty"`
 }
 
 type Response struct {

@@ -31,8 +31,18 @@ func (r *orderRepo) Create(
 	}
 	defer tx.Rollback(ctx)
 
-	var status order.Status
-	var createdAt time.Time
+	var (
+		status          order.Status
+		createdAt       time.Time
+		deliveryAddr    *string
+		deliveryComment *string
+	)
+
+	if in.Delivery != nil {
+		deliveryAddr = &in.Delivery.Address
+		deliveryComment = &in.Delivery.Comment
+	}
+
 	if err := tx.QueryRow(
 		ctx, `
 		INSERT INTO orders(
@@ -45,7 +55,7 @@ func (r *orderRepo) Create(
 		)
 		VALUES ($1, $2, $3, $4, $5, $6)
 		RETURNING status, created_at;
-		`, orderID, in.UserID, in.RestaurantID, in.Delivery.Type, in.Delivery.Address, in.Delivery.Comment,
+		`, orderID, in.UserID, in.RestaurantID, in.FulfillmentType, deliveryAddr, deliveryComment,
 	).Scan(&status, &createdAt); err != nil {
 		return order.PlaceOrderResult{}, err
 	}
@@ -55,7 +65,7 @@ func (r *orderRepo) Create(
 		pgx.Identifier{"order_items"},
 		[]string{"item_id", "order_id", "quantity", "comment"},
 		pgx.CopyFromSlice(len(in.Items), func(i int) ([]any, error) {
-			return []any{in.Items[i].ID, orderID, in.Items[i].Quantity, in.Items[i].Comment}, nil
+			return []any{in.Items[i].ItemID, orderID, in.Items[i].Quantity, in.Items[i].Comment}, nil
 		}),
 	); err != nil {
 		return order.PlaceOrderResult{}, err
