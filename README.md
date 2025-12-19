@@ -22,6 +22,12 @@ Create a local cluster:
 make kind-up
 ```
 
+Run the DB migrations:
+
+```bash
+make migrate
+```
+
 Run the services:
 
 ```bash
