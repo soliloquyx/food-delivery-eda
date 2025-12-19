@@ -1,5 +1,7 @@
 package placeorder
 
+import "time"
+
 type item struct {
 	ID       string `json:"id"`
 	Quantity int32  `json:"quantity"`
@@ -20,6 +22,7 @@ type Request struct {
 }
 
 type Response struct {
-	OrderID string `json:"order_id"`
-	Status  string `json:"status"`
+	OrderID   string    `json:"order_id"`
+	Status    string    `json:"status"`
+	CreatedAt time.Time `json:"created_at"`
 }

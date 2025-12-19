@@ -31,7 +31,8 @@ func (c *Client) PlaceOrder(ctx context.Context, in orderapp.PlaceInput) (ordera
 	}
 
 	return orderapp.PlaceResult{
-		OrderID: orderID,
-		Status:  statusFromProto(resp.GetStatus()),
+		OrderID:   orderID,
+		Status:    statusFromProto(resp.GetStatus()),
+		CreatedAt: resp.CreatedAt.AsTime(),
 	}, nil
 }

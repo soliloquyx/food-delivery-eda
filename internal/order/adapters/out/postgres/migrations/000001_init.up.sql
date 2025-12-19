@@ -8,12 +8,14 @@ CREATE TABLE IF NOT EXISTS orders (
     delivery_address text,
     delivery_comment text NOT NULL DEFAULT '',
     created_at timestamptz NOT NULL DEFAULT now(),
+    status text NOT NULL DEFAULT 'pending',
     CONSTRAINT order_valid_fulfillment_type
         CHECK (
-            fulfillment_type = 'pickup' AND delivery_address IS NULL
+            (fulfillment_type = 'pickup' AND delivery_address IS NULL)
             OR
-            fulfillment_type = 'delivery' AND delivery_address IS NOT NULL
-        )
+            (fulfillment_type = 'delivery' AND delivery_address IS NOT NULL)
+        ),
+    CONSTRAINT order_valid_status CHECK (status IN ('pending', 'confirmed', 'cancelled'))
 );
 
 CREATE TABLE IF NOT EXISTS order_items (

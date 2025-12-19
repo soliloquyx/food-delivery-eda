@@ -1,4 +1,4 @@
-package app
+package order
 
 type service struct {
 	orderRepo OrderRepo

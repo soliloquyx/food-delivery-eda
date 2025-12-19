@@ -1,6 +1,10 @@
 package order
 
-import "github.com/google/uuid"
+import (
+	"time"
+
+	"github.com/google/uuid"
+)
 
 type Status string
 
@@ -39,6 +43,7 @@ type PlaceInput struct {
 }
 
 type PlaceResult struct {
-	OrderID uuid.UUID
-	Status  Status
+	OrderID   uuid.UUID
+	Status    Status
+	CreatedAt time.Time
 }

@@ -1,7 +1,8 @@
-package app
+package order
 
 import (
 	"context"
+	"time"
 
 	"github.com/google/uuid"
 )
@@ -43,8 +44,9 @@ type PlaceOrderInput struct {
 }
 
 type PlaceOrderResult struct {
-	OrderID uuid.UUID
-	Status  Status
+	OrderID   uuid.UUID
+	Status    Status
+	CreatedAt time.Time
 }
 
 type OrderRepo interface {

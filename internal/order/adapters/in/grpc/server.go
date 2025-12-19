@@ -5,7 +5,7 @@ import (
 
 	orderv1 "github.com/soliloquyx/food-delivery-eda/internal/genproto/order/v1"
 	"github.com/soliloquyx/food-delivery-eda/internal/order/adapters/in/grpc/placeorder"
-	"github.com/soliloquyx/food-delivery-eda/internal/order/app"
+	"github.com/soliloquyx/food-delivery-eda/internal/order/order"
 )
 
 type server struct {
@@ -14,7 +14,7 @@ type server struct {
 }
 
 type Service interface {
-	PlaceOrder(ctx context.Context, in app.PlaceOrderInput) (app.PlaceOrderResult, error)
+	PlaceOrder(ctx context.Context, in order.PlaceOrderInput) (order.PlaceOrderResult, error)
 }
 
 func NewServer(s Service) orderv1.OrderServiceServer {

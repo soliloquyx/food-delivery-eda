@@ -44,7 +44,8 @@ func ToInput(body Request) (order.PlaceInput, error) {
 
 func ToResponse(result order.PlaceResult) Response {
 	return Response{
-		OrderID: result.OrderID.String(),
-		Status:  string(result.Status),
+		OrderID:   result.OrderID.String(),
+		Status:    string(result.Status),
+		CreatedAt: result.CreatedAt,
 	}
 }
