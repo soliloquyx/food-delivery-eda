@@ -1,0 +1,16 @@
+package requestid
+
+import "context"
+
+type keyType struct{}
+
+var key = keyType{}
+
+func With(ctx context.Context, id string) context.Context {
+	return context.WithValue(ctx, key, id)
+}
+
+func From(ctx context.Context) (string, bool) {
+	id, ok := ctx.Value(key).(string)
+	return id, ok
+}

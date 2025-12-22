@@ -9,9 +9,11 @@ import (
 	"time"
 
 	httpin "github.com/soliloquyx/food-delivery-eda/internal/gateway/adapters/in/http"
+	"github.com/soliloquyx/food-delivery-eda/internal/gateway/adapters/in/http/middleware"
 	orderout "github.com/soliloquyx/food-delivery-eda/internal/gateway/adapters/out/order"
 	orderapp "github.com/soliloquyx/food-delivery-eda/internal/gateway/app/order"
 	"github.com/soliloquyx/food-delivery-eda/internal/gateway/config"
+	"go.uber.org/zap"
 )
 
 func run(ctx context.Context) error {
@@ -26,14 +28,22 @@ func run(ctx context.Context) error {
 	}
 	defer cleanup()
 
+	logger := zap.Must(zap.NewProduction())
+	defer logger.Sync()
+
 	orderSvc := orderapp.NewService(orderClient)
+
+	mw := middleware.Chain{
+		middleware.RequestID,
+	}
+
 	httpHandler := httpin.NewHandler(orderSvc)
 	mux := http.NewServeMux()
-	mux.HandleFunc("POST /orders", httpHandler.PlaceOrder)
+	mux.HandleFunc("POST /orders", httpin.Adapt(logger, httpHandler.PlaceOrder))
 
 	server := &http.Server{
 		Addr:              cfg.HTTPAddr,
-		Handler:           mux,
+		Handler:           mw.Then(mux),
 		ReadHeaderTimeout: 2 * time.Second,
 		ReadTimeout:       15 * time.Second,
 		WriteTimeout:      15 * time.Second,
@@ -42,7 +52,7 @@ func run(ctx context.Context) error {
 
 	errCh := make(chan error, 1)
 	go func() {
-		log.Printf("%s: HTTP server listening on %s", cfg.SvcName, cfg.HTTPAddr)
+		logger.Info("HTTP server listening", zap.String("addr", cfg.HTTPAddr))
 
 		if err := server.ListenAndServe(); err != nil && err != http.ErrServerClosed {
 			errCh <- err
@@ -51,7 +61,7 @@ func run(ctx context.Context) error {
 
 	select {
 	case <-ctx.Done():
-		log.Printf("%s: shutdown signal received", cfg.SvcName)
+		logger.Info("shutdown started")
 
 		shutdownCtx, cancel := context.WithTimeout(context.Background(), 5*time.Second)
 		defer cancel()
@@ -60,7 +70,7 @@ func run(ctx context.Context) error {
 			return err
 		}
 
-		log.Printf("%s: graceful shutdown complete", cfg.SvcName)
+		logger.Info("shutdown complete")
 	case err := <-errCh:
 		return err
 	}

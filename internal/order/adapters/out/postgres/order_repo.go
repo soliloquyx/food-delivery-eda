@@ -2,6 +2,7 @@ package postgres
 
 import (
 	"context"
+	"fmt"
 	"time"
 
 	"github.com/google/uuid"
@@ -57,6 +58,7 @@ func (r *orderRepo) Create(
 		RETURNING status, created_at;
 		`, orderID, in.UserID, in.RestaurantID, in.FulfillmentType, deliveryAddr, deliveryComment,
 	).Scan(&status, &createdAt); err != nil {
+		fmt.Printf("%+v\n", err)
 		return order.PlaceOrderResult{}, err
 	}
 
