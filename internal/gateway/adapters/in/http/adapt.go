@@ -15,14 +15,18 @@ func Adapt(logger *zap.Logger, next endpoint) stdhttp.HandlerFunc {
 		start := time.Now()
 		reqID, _ := requestid.From(r.Context())
 
+		l := logger.With(
+			zap.String("request_id", reqID),
+			zap.String("method", r.Method),
+			zap.String("path", r.URL.Path),
+		)
+
 		defer func() {
 			if rec := recover(); rec != nil {
-				logger.Error(
+				l.Error(
 					"panic",
-					zap.String("request_id", reqID),
 					zap.Any("recover", rec),
-					zap.String("method", r.Method),
-					zap.String("path", r.URL.Path),
+					zap.String("code", codeInternal),
 					zap.Duration("dur", time.Since(start)),
 				)
 
@@ -39,11 +43,8 @@ func Adapt(logger *zap.Logger, next endpoint) stdhttp.HandlerFunc {
 		if err := next(w, r); err != nil {
 			status, code, msg := mapError(err)
 
-			logger.Error(
+			l.Error(
 				"http request failed",
-				zap.String("request_id", reqID),
-				zap.String("method", r.Method),
-				zap.String("path", r.URL.Path),
 				zap.Int("status", status),
 				zap.String("code", code),
 				zap.Duration("dur", time.Since(start)),
