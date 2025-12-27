@@ -12,6 +12,7 @@ import (
 	"github.com/soliloquyx/food-delivery-eda/internal/order/adapters/out/postgres"
 	"github.com/soliloquyx/food-delivery-eda/internal/order/config"
 	"github.com/soliloquyx/food-delivery-eda/internal/order/order"
+	"go.uber.org/zap"
 	"google.golang.org/grpc"
 )
 
@@ -31,6 +32,9 @@ func run(ctx context.Context) error {
 		return err
 	}
 
+	logger := zap.Must(zap.NewProduction())
+	defer logger.Sync()
+
 	orderRepo := postgres.NewOrderRepo(db)
 	svc := order.NewService(&orderRepo)
 	grpcServer := grpc.NewServer()
@@ -38,7 +42,7 @@ func run(ctx context.Context) error {
 
 	errCh := make(chan error, 1)
 	go func() {
-		log.Printf("%s: gRPC listening on %s", cfg.SvcName, cfg.GRPCAddr)
+		logger.Info("gRPC server listening", zap.String("addr", cfg.GRPCAddr))
 		if err := grpcServer.Serve(lis); err != nil && err != grpc.ErrServerStopped {
 			errCh <- err
 		}
@@ -46,9 +50,9 @@ func run(ctx context.Context) error {
 
 	select {
 	case <-ctx.Done():
-		log.Printf("%s: shutdown signal received", cfg.SvcName)
+		logger.Info("shutdown started")
 		grpcServer.GracefulStop()
-		log.Printf("%s: graceful shutdown complete", cfg.SvcName)
+		logger.Info("shutdown complete")
 	case err := <-errCh:
 		return err
 	}
