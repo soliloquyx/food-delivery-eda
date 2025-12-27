@@ -30,12 +30,14 @@ func Adapt(logger *zap.Logger, next endpoint) stdhttp.HandlerFunc {
 					zap.Duration("dur", time.Since(start)),
 				)
 
-				writeError(
+				writeJSON(
 					w,
 					stdhttp.StatusInternalServerError,
-					codeInternal,
-					stdhttp.StatusText(stdhttp.StatusInternalServerError),
-					reqID,
+					errorResponse{
+						Code:      codeInternal,
+						Message:   stdhttp.StatusText(stdhttp.StatusInternalServerError),
+						RequestID: reqID,
+					},
 				)
 			}
 		}()
@@ -51,12 +53,14 @@ func Adapt(logger *zap.Logger, next endpoint) stdhttp.HandlerFunc {
 				zap.Error(err),
 			)
 
-			writeError(
+			writeJSON(
 				w,
 				status,
-				code,
-				msg,
-				reqID,
+				errorResponse{
+					Code:      code,
+					Message:   msg,
+					RequestID: reqID,
+				},
 			)
 		}
 	}

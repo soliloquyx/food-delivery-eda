@@ -5,14 +5,6 @@ import (
 	"net/http"
 )
 
-func writeError(w http.ResponseWriter, status int, code, msg, requestID string) {
-	writeJSON(w, status, errorResponse{
-		Code:      code,
-		Message:   msg,
-		RequestID: requestID,
-	})
-}
-
 func writeJSON(w http.ResponseWriter, status int, data any) {
 	w.Header().Set("Content-Type", "application/json")
 	w.WriteHeader(status)
