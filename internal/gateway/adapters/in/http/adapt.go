@@ -35,7 +35,6 @@ func Adapt(logger *zap.Logger, next endpoint) stdhttp.HandlerFunc {
 					stdhttp.StatusInternalServerError,
 					errorResponse{
 						Code:      codeInternal,
-						Message:   stdhttp.StatusText(stdhttp.StatusInternalServerError),
 						RequestID: reqID,
 					},
 				)
@@ -43,7 +42,7 @@ func Adapt(logger *zap.Logger, next endpoint) stdhttp.HandlerFunc {
 		}()
 
 		if err := next(w, r); err != nil {
-			status, code, msg := mapError(err)
+			status, code := mapError(err)
 
 			l.Error(
 				"http request failed",
@@ -58,7 +57,6 @@ func Adapt(logger *zap.Logger, next endpoint) stdhttp.HandlerFunc {
 				status,
 				errorResponse{
 					Code:      code,
-					Message:   msg,
 					RequestID: reqID,
 				},
 			)

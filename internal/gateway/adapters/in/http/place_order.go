@@ -16,7 +16,7 @@ func (h *handler) PlaceOrder(w http.ResponseWriter, r *http.Request) error {
 
 	in, err := placeorder.ToInput(body)
 	if err != nil {
-		return fmt.Errorf("%w: %w", errValidation, err)
+		return err
 	}
 
 	result, err := h.order.PlaceOrder(r.Context(), in)
