@@ -26,7 +26,7 @@ type FulfillmentType int32
 
 const (
 	FulfillmentType_FULFILLMENT_TYPE_UNSPECIFIED FulfillmentType = 0
-	FulfillmentType_FULFILLMENT_TYPE_FULFILLMENT FulfillmentType = 1
+	FulfillmentType_FULFILLMENT_TYPE_DELIVERY    FulfillmentType = 1
 	FulfillmentType_FULFILLMENT_TYPE_PICKUP      FulfillmentType = 2
 )
 
@@ -34,12 +34,12 @@ const (
 var (
 	FulfillmentType_name = map[int32]string{
 		0: "FULFILLMENT_TYPE_UNSPECIFIED",
-		1: "FULFILLMENT_TYPE_FULFILLMENT",
+		1: "FULFILLMENT_TYPE_DELIVERY",
 		2: "FULFILLMENT_TYPE_PICKUP",
 	}
 	FulfillmentType_value = map[string]int32{
 		"FULFILLMENT_TYPE_UNSPECIFIED": 0,
-		"FULFILLMENT_TYPE_FULFILLMENT": 1,
+		"FULFILLMENT_TYPE_DELIVERY":    1,
 		"FULFILLMENT_TYPE_PICKUP":      2,
 	}
 )
@@ -393,10 +393,10 @@ const file_order_v1_order_proto_rawDesc = "" +
 	"\border_id\x18\x01 \x01(\tR\aorderId\x12(\n" +
 	"\x06status\x18\x02 \x01(\x0e2\x10.order.v1.StatusR\x06status\x129\n" +
 	"\n" +
-	"created_at\x18\x03 \x01(\v2\x1a.google.protobuf.TimestampR\tcreatedAt*r\n" +
+	"created_at\x18\x03 \x01(\v2\x1a.google.protobuf.TimestampR\tcreatedAt*o\n" +
 	"\x0fFulfillmentType\x12 \n" +
-	"\x1cFULFILLMENT_TYPE_UNSPECIFIED\x10\x00\x12 \n" +
-	"\x1cFULFILLMENT_TYPE_FULFILLMENT\x10\x01\x12\x1b\n" +
+	"\x1cFULFILLMENT_TYPE_UNSPECIFIED\x10\x00\x12\x1d\n" +
+	"\x19FULFILLMENT_TYPE_DELIVERY\x10\x01\x12\x1b\n" +
 	"\x17FULFILLMENT_TYPE_PICKUP\x10\x02*`\n" +
 	"\x06Status\x12\x16\n" +
 	"\x12STATUS_UNSPECIFIED\x10\x00\x12\x12\n" +

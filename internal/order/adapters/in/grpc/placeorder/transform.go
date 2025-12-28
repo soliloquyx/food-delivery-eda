@@ -19,8 +19,19 @@ func statusToProto(s order.Status) orderv1.Status {
 	}
 }
 
+func toFulfillmentType(ft orderv1.FulfillmentType) order.FulfillmentType {
+	switch ft {
+	case orderv1.FulfillmentType_FULFILLMENT_TYPE_DELIVERY:
+		return order.FulfillmentTypeDelivery
+	case orderv1.FulfillmentType_FULFILLMENT_TYPE_PICKUP:
+		return order.FulfillmentTypePickup
+	default:
+		return ""
+	}
+}
+
 func ToInput(req *orderv1.PlaceOrderRequest) (order.PlaceOrderInput, error) {
-	items := make([]order.OrderItem, len(req.Items))
+	items := make([]order.OrderItem, 0, len(req.Items))
 	for _, it := range req.Items {
 		itemID, err := uuid.Parse(it.ItemId)
 		if err != nil {
@@ -44,16 +55,21 @@ func ToInput(req *orderv1.PlaceOrderRequest) (order.PlaceOrderInput, error) {
 		return order.PlaceOrderInput{}, err
 	}
 
-	return order.PlaceOrderInput{
+	in := order.PlaceOrderInput{
 		UserID:          userID,
 		RestaurantID:    restaurantID,
 		Items:           items,
-		FulfillmentType: order.FulfillmentType(req.FulfillmentType),
-		Delivery: &order.Delivery{
-			Address: req.Delivery.Address,
-			Comment: req.Delivery.Comment,
-		},
-	}, nil
+		FulfillmentType: toFulfillmentType(req.FulfillmentType),
+	}
+
+	if d := req.GetDelivery(); d != nil {
+		in.Delivery = &order.Delivery{
+			Address: d.Address,
+			Comment: d.Comment,
+		}
+	}
+
+	return in, nil
 }
 
 func ToResponse(result order.PlaceOrderResult) *orderv1.PlaceOrderResponse {

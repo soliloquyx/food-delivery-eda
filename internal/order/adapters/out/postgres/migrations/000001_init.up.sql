@@ -22,6 +22,7 @@ CREATE TABLE IF NOT EXISTS order_items (
     id uuid PRIMARY KEY DEFAULT uuidv7(),
     item_id uuid NOT NULL,
     order_id uuid NOT NULL REFERENCES orders(id),
+    comment text NOT NULL DEFAULT '',
     quantity integer NOT NULL,
     CONSTRAINT positive_order_item_quantity CHECK (quantity > 0),
     UNIQUE (order_id, item_id)

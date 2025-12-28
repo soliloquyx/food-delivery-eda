@@ -7,6 +7,10 @@ import (
 )
 
 func (s *service) PlaceOrder(ctx context.Context, in PlaceOrderInput) (PlaceOrderResult, error) {
+	if err := in.validate(); err != nil {
+		return PlaceOrderResult{}, err
+	}
+
 	orderID, err := uuid.NewV7()
 	if err != nil {
 		return PlaceOrderResult{}, err

@@ -36,12 +36,12 @@ func (r *orderRepo) Create(
 		status          order.Status
 		createdAt       time.Time
 		deliveryAddr    *string
-		deliveryComment *string
+		deliveryComment string
 	)
 
 	if in.Delivery != nil {
 		deliveryAddr = &in.Delivery.Address
-		deliveryComment = &in.Delivery.Comment
+		deliveryComment = in.Delivery.Comment
 	}
 
 	if err := tx.QueryRow(
@@ -58,7 +58,7 @@ func (r *orderRepo) Create(
 		RETURNING status, created_at;
 		`, orderID, in.UserID, in.RestaurantID, in.FulfillmentType, deliveryAddr, deliveryComment,
 	).Scan(&status, &createdAt); err != nil {
-		fmt.Printf("%+v\n", err)
+		fmt.Printf("%+v\n", in)
 		return order.PlaceOrderResult{}, err
 	}
 

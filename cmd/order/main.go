@@ -12,6 +12,7 @@ import (
 	"github.com/soliloquyx/food-delivery-eda/internal/order/adapters/out/postgres"
 	"github.com/soliloquyx/food-delivery-eda/internal/order/config"
 	"github.com/soliloquyx/food-delivery-eda/internal/order/order"
+	"go.opentelemetry.io/contrib/instrumentation/google.golang.org/grpc/otelgrpc"
 	"go.uber.org/zap"
 	"google.golang.org/grpc"
 )
@@ -37,7 +38,9 @@ func run(ctx context.Context) error {
 
 	orderRepo := postgres.NewOrderRepo(db)
 	svc := order.NewService(&orderRepo)
-	grpcServer := grpc.NewServer()
+	grpcServer := grpc.NewServer(
+		grpc.StatsHandler(otelgrpc.NewServerHandler()),
+	)
 	orderv1.RegisterOrderServiceServer(grpcServer, grpcin.NewServer(svc))
 
 	errCh := make(chan error, 1)

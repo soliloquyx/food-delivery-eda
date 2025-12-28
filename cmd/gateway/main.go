@@ -13,6 +13,8 @@ import (
 	orderout "github.com/soliloquyx/food-delivery-eda/internal/gateway/adapters/out/order"
 	orderapp "github.com/soliloquyx/food-delivery-eda/internal/gateway/app/order"
 	"github.com/soliloquyx/food-delivery-eda/internal/gateway/config"
+	"github.com/soliloquyx/food-delivery-eda/internal/observability/otelx"
+	"go.opentelemetry.io/contrib/instrumentation/net/http/otelhttp"
 	"go.uber.org/zap"
 )
 
@@ -28,12 +30,19 @@ func run(ctx context.Context) error {
 	}
 	defer cleanup()
 
+	shutdown, err := otelx.Init(ctx, cfg.SvcName)
+	if err != nil {
+		return err
+	}
+	defer shutdown(ctx)
+
 	logger := zap.Must(zap.NewProduction())
 	defer logger.Sync()
 
 	orderSvc := orderapp.NewService(orderClient)
 
 	mw := middleware.Chain{
+		otelhttp.NewMiddleware(cfg.SvcName),
 		middleware.RequestID,
 	}
 

@@ -30,3 +30,8 @@ spec:
               value: order
             - name: GRPC_ADDR
               value: ":50051"
+            - name: DATABASE_URL
+              valueFrom:
+                secretKeyRef:
+                  name: postgres
+                  key: DATABASE_URL

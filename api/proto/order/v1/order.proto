@@ -6,7 +6,7 @@ import "google/protobuf/timestamp.proto";
 
 enum FulfillmentType {
     FULFILLMENT_TYPE_UNSPECIFIED = 0;
-    FULFILLMENT_TYPE_FULFILLMENT = 1;
+    FULFILLMENT_TYPE_DELIVERY = 1;
     FULFILLMENT_TYPE_PICKUP = 2;
 }
 

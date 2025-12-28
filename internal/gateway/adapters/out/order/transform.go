@@ -34,7 +34,7 @@ func itemsToProto(items []orderapp.OrderItem) []*orderv1.OrderItem {
 func fulfillmentTypeToProto(t orderapp.FulfillmentType) orderv1.FulfillmentType {
 	switch t {
 	case orderapp.FulfillmentTypeDelivery:
-		return orderv1.FulfillmentType_FULFILLMENT_TYPE_FULFILLMENT
+		return orderv1.FulfillmentType_FULFILLMENT_TYPE_DELIVERY
 	case orderapp.FulfillmentTypePickup:
 		return orderv1.FulfillmentType_FULFILLMENT_TYPE_PICKUP
 	default:
