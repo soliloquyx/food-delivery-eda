@@ -5,11 +5,10 @@ metadata:
 deploy:
   kubectl: {}
 manifests:
-  rawYaml:
-    - deploy/k8s/namespaces/*.yaml
-    - deploy/k8s/postgres/secret.yaml
-    - deploy/k8s/postgres/service.yaml
-    - deploy/k8s/postgres/statefulset.yaml
+  kustomize:
+    paths:
+      - deploy/k8s/namespaces
+      - deploy/k8s/postgres
 ---
 apiVersion: skaffold/v4beta13
 kind: Config
@@ -27,8 +26,9 @@ build:
 deploy:
   kubectl: {}
 manifests:
-  rawYaml:
-    - deploy/k8s/order/migrate-job.yaml
+  kustomize:
+    paths:
+      - deploy/k8s/migrate
 ---
 apiVersion: skaffold/v4beta13
 kind: Config
@@ -49,8 +49,7 @@ build:
 deploy:
   kubectl: {}
 manifests:
-  rawYaml:
-    - deploy/k8s/gateway/deployment.yaml
-    - deploy/k8s/gateway/service.yaml
-    - deploy/k8s/order/deployment.yaml
-    - deploy/k8s/order/service.yaml
+  kustomize:
+    paths:
+      - deploy/k8s/gateway
+      - deploy/k8s/order
