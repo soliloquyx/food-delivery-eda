@@ -1,10 +1,10 @@
-package grpc
+package grpcin
 
 import (
 	"context"
 
 	orderv1 "github.com/soliloquyx/food-delivery-eda/internal/genproto/order/v1"
-	"github.com/soliloquyx/food-delivery-eda/internal/order/adapters/in/grpc/placeorder"
+	"github.com/soliloquyx/food-delivery-eda/internal/order/adapters/grpcin/placeorder"
 	"github.com/soliloquyx/food-delivery-eda/internal/order/order"
 )
 

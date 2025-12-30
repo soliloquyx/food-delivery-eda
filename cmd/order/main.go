@@ -8,8 +8,8 @@ import (
 	"syscall"
 
 	orderv1 "github.com/soliloquyx/food-delivery-eda/internal/genproto/order/v1"
-	grpcin "github.com/soliloquyx/food-delivery-eda/internal/order/adapters/in/grpc"
-	"github.com/soliloquyx/food-delivery-eda/internal/order/adapters/out/postgres"
+	"github.com/soliloquyx/food-delivery-eda/internal/order/adapters/grpcin"
+	"github.com/soliloquyx/food-delivery-eda/internal/order/adapters/postgres"
 	"github.com/soliloquyx/food-delivery-eda/internal/order/config"
 	"github.com/soliloquyx/food-delivery-eda/internal/order/order"
 	"go.opentelemetry.io/contrib/instrumentation/google.golang.org/grpc/otelgrpc"

@@ -1,11 +1,11 @@
-package http
+package httpin
 
 import (
 	"encoding/json"
 	"fmt"
 	"net/http"
 
-	"github.com/soliloquyx/food-delivery-eda/internal/gateway/adapters/in/http/placeorder"
+	"github.com/soliloquyx/food-delivery-eda/internal/gateway/adapters/httpin/placeorder"
 )
 
 func (h *handler) PlaceOrder(w http.ResponseWriter, r *http.Request) error {

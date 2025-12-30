@@ -1,4 +1,4 @@
-package order
+package orderclient
 
 import (
 	orderapp "github.com/soliloquyx/food-delivery-eda/internal/gateway/app/order"
@@ -8,7 +8,7 @@ import (
 	"google.golang.org/grpc/credentials/insecure"
 )
 
-func NewClient(addr string) (orderapp.Service, func(), error) {
+func New(addr string) (orderapp.Service, func(), error) {
 	conn, err := grpc.NewClient(
 		addr,
 		grpc.WithTransportCredentials(insecure.NewCredentials()),

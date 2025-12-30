@@ -1,4 +1,4 @@
-package order
+package orderclient
 
 import (
 	orderapp "github.com/soliloquyx/food-delivery-eda/internal/gateway/app/order"

@@ -4,7 +4,7 @@ import (
 	"net/http"
 
 	"github.com/google/uuid"
-	"github.com/soliloquyx/food-delivery-eda/internal/gateway/adapters/in/http/middleware/requestid"
+	"github.com/soliloquyx/food-delivery-eda/internal/gateway/adapters/httpin/middleware/requestid"
 )
 
 func RequestID(next http.Handler) http.Handler {

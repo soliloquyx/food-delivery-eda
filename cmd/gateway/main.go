@@ -8,10 +8,10 @@ import (
 	"syscall"
 	"time"
 
-	httpin "github.com/soliloquyx/food-delivery-eda/internal/gateway/adapters/in/http"
-	"github.com/soliloquyx/food-delivery-eda/internal/gateway/adapters/in/http/middleware"
-	orderout "github.com/soliloquyx/food-delivery-eda/internal/gateway/adapters/out/order"
-	orderapp "github.com/soliloquyx/food-delivery-eda/internal/gateway/app/order"
+	"github.com/soliloquyx/food-delivery-eda/internal/gateway/adapters/httpin"
+	"github.com/soliloquyx/food-delivery-eda/internal/gateway/adapters/httpin/middleware"
+	"github.com/soliloquyx/food-delivery-eda/internal/gateway/adapters/orderclient"
+	"github.com/soliloquyx/food-delivery-eda/internal/gateway/app/order"
 	"github.com/soliloquyx/food-delivery-eda/internal/gateway/config"
 	"github.com/soliloquyx/food-delivery-eda/internal/observability/otelx"
 	"go.opentelemetry.io/contrib/instrumentation/net/http/otelhttp"
@@ -24,7 +24,7 @@ func run(ctx context.Context) error {
 		return err
 	}
 
-	orderClient, cleanup, err := orderout.NewClient(cfg.OrderGRPCAddr)
+	orderClient, cleanup, err := orderclient.New(cfg.OrderGRPCAddr)
 	if err != nil {
 		return err
 	}
@@ -39,7 +39,7 @@ func run(ctx context.Context) error {
 	logger := zap.Must(zap.NewProduction())
 	defer logger.Sync()
 
-	orderSvc := orderapp.NewService(orderClient)
+	orderSvc := order.NewService(orderClient)
 
 	mw := middleware.Chain{
 		otelhttp.NewMiddleware(cfg.SvcName),

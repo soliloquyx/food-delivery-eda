@@ -1,10 +1,10 @@
-package http
+package httpin
 
 import (
 	stdhttp "net/http"
 	"time"
 
-	"github.com/soliloquyx/food-delivery-eda/internal/gateway/adapters/in/http/middleware/requestid"
+	"github.com/soliloquyx/food-delivery-eda/internal/gateway/adapters/httpin/middleware/requestid"
 	"go.uber.org/zap"
 )
 
