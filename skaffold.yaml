@@ -6,9 +6,10 @@ deploy:
   kubectl: {}
 manifests:
   rawYaml:
-    - deploy/postgres/k8s/secret.yaml
-    - deploy/postgres/k8s/service.yaml
-    - deploy/postgres/k8s/statefulset.yaml
+    - deploy/k8s/namespaces/*.yaml
+    - deploy/k8s/postgres/secret.yaml
+    - deploy/k8s/postgres/service.yaml
+    - deploy/k8s/postgres/statefulset.yaml
 ---
 apiVersion: skaffold/v4beta13
 kind: Config
@@ -22,19 +23,19 @@ build:
   artifacts:
     - image: order-migrate
       docker:
-        dockerfile: deploy/order/images/migrate.Dockerfile
+        dockerfile: deploy/images/order/migrate.Dockerfile
 deploy:
   kubectl: {}
 manifests:
   rawYaml:
-    - deploy/order/k8s/migrate-job.yaml
+    - deploy/k8s/order/migrate-job.yaml
 ---
 apiVersion: skaffold/v4beta13
 kind: Config
 metadata:
   name: services
 requires:
-  - configs: [infra]
+  - configs: [migrate]
 build:
   local:
     push: true
@@ -49,7 +50,7 @@ deploy:
   kubectl: {}
 manifests:
   rawYaml:
-    - deploy/gateway/k8s/deployment.yaml
-    - deploy/gateway/k8s/service.yaml
-    - deploy/order/k8s/deployment.yaml
-    - deploy/order/k8s/service.yaml
+    - deploy/k8s/gateway/deployment.yaml
+    - deploy/k8s/gateway/service.yaml
+    - deploy/k8s/order/deployment.yaml
+    - deploy/k8s/order/service.yaml
