@@ -34,6 +34,13 @@ deploy:
         version: 1.5.1
         valuesFiles:
           - deploy/helm/alloy/dev-values.yaml
+      - name: grafana
+        namespace: observability
+        remoteChart: grafana
+        repo: https://grafana.github.io/helm-charts
+        version: 10.4.1
+        valuesFiles:
+          - deploy/helm/grafana/dev-values.yaml
 ---
 apiVersion: skaffold/v4beta13
 kind: Config
