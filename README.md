@@ -11,6 +11,7 @@ An example project built to explore architectural concepts and technologies of i
 - [kubectl](https://kubernetes.io/docs/tasks/tools/#kubectl)
 - [kind](https://kind.sigs.k8s.io)
 - [Skaffold](https://skaffold.dev)
+- [Helm](https://helm.sh/)
 - [ko](https://ko.build)
 - [Buf](https://buf.build)
 
