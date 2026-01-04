@@ -1,3 +1,8 @@
 {
-  "makefile.configureOnOpen": false
+  "makefile.configureOnOpen": false,
+  "helm-intellisense.customValueFileNames": [
+    "prod-values.yaml",
+    "dev-values.yaml",
+    "values.yaml"
+  ]
 }

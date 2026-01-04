@@ -1,3 +1,4 @@
+---
 apiVersion: skaffold/v4beta13
 kind: Config
 metadata:
@@ -13,6 +14,30 @@ manifests:
 apiVersion: skaffold/v4beta13
 kind: Config
 metadata:
+  name: observability
+requires:
+  - configs: [infra]
+deploy:
+  helm:
+    releases:
+      - name: tempo
+        namespace: observability
+        remoteChart: tempo
+        repo: https://grafana.github.io/helm-charts
+        version: 1.24.1
+        valuesFiles:
+          - deploy/helm/tempo/dev-values.yaml
+      - name: alloy
+        namespace: observability
+        remoteChart: alloy
+        repo: https://grafana.github.io/helm-charts
+        version: 1.5.1
+        valuesFiles:
+          - deploy/helm/alloy/dev-values.yaml
+---
+apiVersion: skaffold/v4beta13
+kind: Config
+metadata:
   name: migrate
 requires:
   - configs: [infra]
@@ -22,7 +47,7 @@ build:
   artifacts:
     - image: order-migrate
       docker:
-        dockerfile: deploy/images/order/migrate.Dockerfile
+        dockerfile: deploy/docker/order/migrate.Dockerfile
 deploy:
   kubectl: {}
 manifests:
@@ -35,7 +60,7 @@ kind: Config
 metadata:
   name: services
 requires:
-  - configs: [migrate]
+  - configs: [migrate, observability]
 build:
   local:
     push: true

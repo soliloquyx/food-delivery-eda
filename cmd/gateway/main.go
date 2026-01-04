@@ -33,7 +33,8 @@ func run(ctx context.Context) error {
 	shutdown, err := telemetry.InitOTLP(
 		ctx,
 		telemetry.Config{
-			SvcName: cfg.SvcName,
+			SvcName:  cfg.SvcName,
+			Endpoint: cfg.OTLPEndpoint,
 		},
 	)
 	if err != nil {

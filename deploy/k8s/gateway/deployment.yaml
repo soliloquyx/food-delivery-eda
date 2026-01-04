@@ -32,3 +32,5 @@ spec:
               value: gateway
             - name: ORDER_GRPC_ADDR
               value: "order:50051"
+            - name: OTEL_EXPORTER_OTLP_ENDPOINT
+              value: "alloy.observability.svc.cluster.local:4317"

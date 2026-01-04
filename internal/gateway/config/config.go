@@ -6,6 +6,7 @@ type config struct {
 	SvcName       string `env:"SERVICE_NAME"`
 	HTTPAddr      string `env:"HTTP_ADDR"`
 	OrderGRPCAddr string `env:"ORDER_GRPC_ADDR"`
+	OTLPEndpoint  string `env:"OTEL_EXPORTER_OTLP_ENDPOINT"`
 }
 
 func FromEnv() (config, error) {
